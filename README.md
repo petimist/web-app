@@ -1,4 +1,4 @@
-# hello-world
+# Petimist - webapp
 
 ## Project setup
 ```
