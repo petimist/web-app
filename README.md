@@ -1,1 +1,1 @@
-# Pet-Project-Vue-Firebase
+# Petimist - Browser Platform
