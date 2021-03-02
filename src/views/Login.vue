@@ -7,9 +7,9 @@
     <v-container align-center justify-center>
       <v-layout align-center justify-center>
         <v-col
-            cols="12"
+            cols="18"
             sm="11"
-            md="3"
+            md="6"
         >
           <v-text-field
               label="Email"
@@ -28,23 +28,18 @@
       </v-layout>
     </v-container>
 
-    <v-row
-        align="center"
-        justify="space-around"
-    >
-
-    <v-btn color="#FFD180" style="font-family:'sans-serif'">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
       Login
     </v-btn>
 
-    <v-btn color="#FFD180" style="font-family:'sans-serif'">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
+      <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="ma-2"/>
       Google
     </v-btn>
-
-    <v-btn color="#FFD180" style="font-family:'sans-serif'">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
+      <img src="https://www.greenektar.com/wp-content/uploads/2015/10/facebook-icon-png.png" height="35" class="ma-2"/>
       Facebook
     </v-btn>
-    </v-row>
   </v-form>
 </template>
 
