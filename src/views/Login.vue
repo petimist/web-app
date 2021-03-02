@@ -28,18 +28,24 @@
       </v-layout>
     </v-container>
 
-    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-16 ma-2">
       Login
     </v-btn>
 
-    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-16">
       <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="ma-2"/>
       Google
     </v-btn>
-    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-7">
+    <v-btn color="#FFD180" style="font-family:'sans-serif'">
       <img src="https://www.greenektar.com/wp-content/uploads/2015/10/facebook-icon-png.png" height="35" class="ma-2"/>
       Facebook
     </v-btn>
+
+    <v-col>
+      <v-btn color="#FFD180" style="font-family:'sans-serif'" class="ma-7">
+        Register
+      </v-btn>
+    </v-col>
   </v-form>
 </template>
 
