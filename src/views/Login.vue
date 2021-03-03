@@ -45,7 +45,7 @@
     </div>
 
     <v-col>
-      <v-btn color="#FFD180" style="font-family:'sans-serif'">
+      <v-btn color="#FFD180" style="font-family:'sans-serif'" @click="goToRegister">
         Register
       </v-btn>
     </v-col>
@@ -55,6 +55,17 @@
 <script>
 export default {
   name: 'Login',
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    goToRegister() {
+      this.$router.push('/register');
+    },
+  },
 };
 </script>
 
