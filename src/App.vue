@@ -1,4 +1,8 @@
 <template>
+  <v-app style="
+    background: url('https://image.freepik.com/free-photo/abstract-blur-light-gradient-pink-soft-pastel-yellow-wallpaper-background_7636-1347.jpg');
+    background-size: cover
+  ">
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -6,6 +10,7 @@
     </div>
     <router-view/>
   </div>
+  </v-app>
 </template>
 
 <style lang="scss">
