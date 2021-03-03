@@ -29,6 +29,8 @@
             <v-layout justify-center>
               <v-flex xs12 sm8 md4>
                 <h1 class="black--text MyFont"> Petimist </h1>
+                <v-btn x-large color="#FFD180" class="justify-center font-weight-black MyFont mr-15" onclick=""> Login </v-btn>
+                <v-btn x-large color="#FFD180" class="justify-center font-weight-black MyFont" onclick=""> Register </v-btn>
               </v-flex>
             </v-layout>
           </v-container>
