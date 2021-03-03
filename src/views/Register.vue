@@ -57,8 +57,7 @@
         </v-col>
       </v-layout>
 
-      <v-col>
-
+      <v-col class="ma-7">
         <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-10" @click="backToLogin">
           <v-icon dark left>
             mdi-arrow-left
