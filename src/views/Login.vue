@@ -40,9 +40,12 @@
       <img src="https://www.greenektar.com/wp-content/uploads/2015/10/facebook-icon-png.png" height="35" class="ma-2"/>
       Facebook
     </v-btn>
+    <div class="d-flex flex-column align-center">
+      <v-img src="https://diaryofsarita.files.wordpress.com/2015/01/01508-language2bseparator.png?w=1400" max-width="600"></v-img>
+    </div>
 
     <v-col>
-      <v-btn color="#FFD180" style="font-family:'sans-serif'" class="ma-7">
+      <v-btn color="#FFD180" style="font-family:'sans-serif'">
         Register
       </v-btn>
     </v-col>
