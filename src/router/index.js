@@ -13,21 +13,44 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      auth: true,
+      title: 'Home',
+      icon: '/circle.png',
+    },
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: {
+      auth: true,
+      title: 'Login',
+      icon: '/circle.png',
+    },
   },
   {
     path: '/register',
     name: 'Register',
     component: Register,
+    meta: {
+      auth: true,
+      title: 'Register',
+      icon: '/circle.png',
+    },
   },
 ];
 
 const router = new VueRouter({
   routes,
+});
+
+router.afterEach((to) => {
+  if (to.meta && to.meta.title) {
+    document.title = `${to.meta.title} | Petimist`;
+    const link = document.querySelector("[rel='icon']");
+    link.setAttribute('href', to.meta.icon);
+  }
 });
 
 export default router;
