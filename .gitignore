@@ -189,7 +189,6 @@ src/.DS_Store
 # Firebase Hosting
 .firebaserc
 firebase-debug.log
-
 .firebase/
 database.rules.json
 firebase.json
