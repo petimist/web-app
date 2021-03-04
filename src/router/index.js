@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 // eslint-disable-next-line import/extensions
 import Register from '@/views/Register';
 // eslint-disable-next-line import/extensions
+import Dashboard from '@/views/Dashboard';
+// eslint-disable-next-line import/extensions
 import Login from '../views/Login';
 import Home from '../views/Homepage.vue';
 
@@ -34,6 +36,15 @@ const routes = [
     meta: {
       auth: true,
       title: 'Register',
+    },
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      auth: true,
+      title: 'Dashboard',
     },
   },
 ];
