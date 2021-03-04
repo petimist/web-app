@@ -4,10 +4,7 @@
     background-size: cover
   ">
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <v-app-bar color= "#F58C41"></v-app-bar>
     <router-view/>
   </div>
   </v-app>
