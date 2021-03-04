@@ -16,7 +16,7 @@ const routes = [
     meta: {
       auth: true,
       title: 'Home',
-      icon: '/circle.png',
+      icon: '@/assets/dog.png',
     },
   },
   {
@@ -26,7 +26,7 @@ const routes = [
     meta: {
       auth: true,
       title: 'Login',
-      icon: '/circle.png',
+      icon: '@/assets/logo.png',
     },
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     meta: {
       auth: true,
       title: 'Register',
-      icon: '/circle.png',
+      icon: '@/assets/dog.png',
     },
   },
 ];
@@ -49,7 +49,9 @@ router.afterEach((to) => {
   if (to.meta && to.meta.title) {
     document.title = `${to.meta.title} | Petimist`;
     const link = document.querySelector("[rel='icon']");
+    console.log(document.icon);
     link.setAttribute('href', to.meta.icon);
+    console.log(to.meta.icon);
   }
 });
 
