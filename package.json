@@ -10,6 +10,7 @@
     "stop": "firebase hosting:disable"
   },
   "dependencies": {
+    "@mdi/font": "^5.9.55",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
