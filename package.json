@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "vue-cli-service build; firebase deploy",
-    "stop": "firebase deploy:disable"
+    "stop": "firebase hosting:disable"
   },
   "dependencies": {
     "@vue/eslint-config-airbnb": "^5.3.0",
