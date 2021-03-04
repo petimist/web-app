@@ -185,3 +185,15 @@ node_modules
 
 .DS_Store
 src/.DS_Store
+
+# Firebase Hosting
+.firebaserc
+firebase-debug.log
+
+.firebase/
+database.rules.json
+firebase.json
+firestore.indexes.json
+firestore.rules
+remoteconfig.template.json
+storage.rules
