@@ -15,6 +15,11 @@ export default new Vuex.Store({
       state.user = user;
     },
   },
+  getters: {
+    getUser(state) {
+      return state.user;
+    },
+  },
   actions: {
     setUserAction(context, payload) {
       context.commit('setUser', payload);
