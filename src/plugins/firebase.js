@@ -5,7 +5,7 @@ import 'firebase/auth';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 // Use dot env later
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.APIKEY,
   authDomain: process.env.AUTHDOMAIN,
   projectId: process.env.PROJECTID,
