@@ -1,10 +1,13 @@
 <template>
+  <v-app style="
+    background: url('https://image.freepik.com/free-photo/abstract-blur-light-gradient-pink-soft-pastel-yellow-wallpaper-background_7636-1347.jpg');
+    background-size: cover
+  ">
   <v-form>
-
-    <v-card-title class="justify-center">
-      <h1 style="font-family:'sans-serif'">Login Page</h1>
+    <v-card-title class="justify-center mt-8">
+      <h1 class="black--text MyFont1"> Please Login Your Account </h1>
     </v-card-title>
-    <v-container align-center justify-center>
+    <v-container class="mt-8" align-center justify-center>
       <v-layout align-center justify-center>
         <v-col
             cols="18"
@@ -13,14 +16,14 @@
         >
           <v-text-field
               label="Email"
-              background-color="#FFECB3"
+              background-color="white"
               outlined color="red"
               type="email"
           ></v-text-field>
 
           <v-text-field
               label="Password"
-              background-color="#FFECB3"
+              background-color="white"
               outlined color="red"
               type="password"
           ></v-text-field>
@@ -28,16 +31,16 @@
       </v-layout>
     </v-container>
 
-    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-16 ma-2">
+    <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1">
       Login
     </v-btn>
 
-    <v-btn color="#FFD180" style="font-family:'sans-serif'" class="mr-16">
-      <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="ma-2"/>
+    <v-btn color="#FFD180" class="mr-16 MyFont1">
+      <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="mr-2"/>
       Google
     </v-btn>
-    <v-btn color="#FFD180" style="font-family:'sans-serif'">
-      <img src="https://www.greenektar.com/wp-content/uploads/2015/10/facebook-icon-png.png" height="35" class="ma-2"/>
+    <v-btn color="#FFD180" class="MyFont1">
+      <img src="https://www.greenektar.com/wp-content/uploads/2015/10/facebook-icon-png.png" height="35" class="mr-2"/>
       Facebook
     </v-btn>
     <div class="d-flex flex-column align-center">
@@ -45,19 +48,37 @@
     </div>
 
     <v-col>
-      <v-btn color="#FFD180" style="font-family:'sans-serif'">
+      <v-btn color="#FFD180" class="MyFont1" @click="goToRegister">
         Register
       </v-btn>
     </v-col>
   </v-form>
+  </v-app>
 </template>
 
 <script>
 export default {
   name: 'Login',
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    goToRegister() {
+      this.$router.push('/register');
+    },
+  },
 };
 </script>
 
-<style scoped>
+<style>
 
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+.MyFont1{
+  font-size: 3em;
+  font-family: 'Architects Daughter', cursive
+}
 </style>

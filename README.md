@@ -20,5 +20,15 @@ yarn build
 yarn lint
 ```
 
+### Deploy
+```
+yarn deploy
+```
+
+### stop deploying
+```
+yarn stop
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
