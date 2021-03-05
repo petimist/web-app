@@ -99,7 +99,7 @@ export default {
       confirmPassword: '',
       RegisterSuccess: null,
       RegisterError: null,
-      message: 'Already have an account? Login',
+      message: 'Already have an account?',
     };
   },
   mixins: [validationMixin],
@@ -110,13 +110,6 @@ export default {
     confirmPassword: { required, sameAsPassword: sameAs('password') },
   },
   computed: {
-    // nameErrors() {
-    //   const errors = [];
-    //   if (!this.$v.fullname.$dirty) return errors;
-    //   // eslint-disable-next-line no-unused-expressions
-    //   !this.$v.fullname.required && errors.push('Full name is required');
-    //   return errors;
-    // },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -149,16 +142,14 @@ export default {
     submitRegister() {
       this.$v.$touch();
       if (this.password === this.confirmPassword) {
-        console.log('create reach');
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((data) => {
-            console.log('create reached');
+            this.$router.push('/login');
             data.user
               .then(() => {
-                console.log('Register Successful');
-                this.RegisterSuccess = 'Register Successful! Proceed to Todo list';
+                this.RegisterSuccess = 'Register Successful! Proceed to Dashboard';
                 this.RegisterError = null;
                 this.message = 'Go to Dashboard';
                 this.$store.dispatch('auth/userRegister', data);
