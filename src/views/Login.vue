@@ -19,6 +19,7 @@
               background-color="white"
               outlined color="red"
               type="email"
+              v-model="email"
           ></v-text-field>
 
           <v-text-field
@@ -26,12 +27,13 @@
               background-color="white"
               outlined color="red"
               type="password"
+              v-model="password"
           ></v-text-field>
         </v-col>
       </v-layout>
     </v-container>
 
-    <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1">
+    <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1" @click="signIn">
       Login
     </v-btn>
 
@@ -57,6 +59,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Login',
   data() {
@@ -66,6 +70,11 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['signInAction']),
+    signIn() {
+      this.signInAction({ email: this.email, password: this.password });
+    },
+
     goToRegister() {
       this.$router.push('/register');
     },
