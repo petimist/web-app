@@ -24,8 +24,8 @@
           </v-layout>
         </v-img>
       </v-layout>
-      <v-layout justify-center>
-        <v-flex xs12 sm8 md4>
+      <v-layout justify-center align-center>
+        <v-flex>
           <h1 class="black--text MyFont"> Petimist </h1>
           <v-btn x-large color="#FFD180" class="justify-center font-weight-black MyFont mr-15 mt-5" to="/login"> Login </v-btn>
           <v-btn x-large color="#FFD180" class="justify-center font-weight-black MyFont mt-5" to="/register"> Register </v-btn>
@@ -36,7 +36,6 @@
 </template>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 .MyFont{
