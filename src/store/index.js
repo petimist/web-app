@@ -29,6 +29,10 @@ export default new Vuex.Store({
         commit('setUser', null);
       }
     },
+    userLogin({ commit }, payload) {
+      commit('setLogin', payload !== null);
+      commit('setUser', payload);
+    },
   },
   modules: {
   },

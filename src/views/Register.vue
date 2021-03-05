@@ -72,7 +72,7 @@
           Back to login
         </v-btn>
 
-        <v-btn color="#FFD180" class="MyFont2" type="submit">
+        <v-btn color="#FFD180" class="MyFont2" type="submit" @click="submitRegister">
           Submit
         </v-btn>
       </v-col>
@@ -110,13 +110,13 @@ export default {
     confirmPassword: { required, sameAsPassword: sameAs('password') },
   },
   computed: {
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.fullname.$dirty) return errors;
-      // eslint-disable-next-line no-unused-expressions
-      !this.$v.fullname.required && errors.push('Full name is required');
-      return errors;
-    },
+    // nameErrors() {
+    //   const errors = [];
+    //   if (!this.$v.fullname.$dirty) return errors;
+    //   // eslint-disable-next-line no-unused-expressions
+    //   !this.$v.fullname.required && errors.push('Full name is required');
+    //   return errors;
+    // },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -149,15 +149,18 @@ export default {
     submitRegister() {
       this.$v.$touch();
       if (this.password === this.confirmPassword) {
+        console.log('create reach');
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((data) => {
+            console.log('create reached');
             data.user
               .then(() => {
+                console.log('Register Successful');
                 this.RegisterSuccess = 'Register Successful! Proceed to Todo list';
                 this.RegisterError = null;
-                // this.message = 'Go to TODO ';
+                this.message = 'Go to Dashboard';
                 this.$store.dispatch('auth/userRegister', data);
               });
           })
