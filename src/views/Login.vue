@@ -5,35 +5,55 @@
       background-size: cover;
     "
   >
-    <v-form>
+  <ValidationObserver
+    ref="observer"
+    v-slot="{ invalid }"
+  >
+    <v-form @submit.prevent="submit">
       <v-card-title class="justify-center mt-8">
         <h1 class="black--text MyFont1">Please Login Your Account</h1>
       </v-card-title>
       <v-container class="mt-8" align-center justify-center>
         <v-layout align-center justify-center>
           <v-col cols="18" sm="11" md="6">
-            <v-text-field
-              label="Email"
-              background-color="white"
-              outlined
-              color="red"
-              type="email"
-              v-model="email"
-            ></v-text-field>
+            <!-- for validating user's input -->
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="email"
+              rules="required|email"
+            >
+              <v-text-field
+                label="Email"
+                background-color="white"
+                outlined
+                color="red"
+                type="email"
+                v-model="email"
+                :error-messages="errors"
+                required
+              ></v-text-field>
+            </ValidationProvider>
 
-            <v-text-field
-              label="Password"
-              background-color="white"
-              outlined
-              color="red"
-              type="password"
-              v-model="password"
-            ></v-text-field>
+            <ValidationProvider
+            v-slot="{ errors }"
+              name="Password"
+              rules="required">
+              <v-text-field
+                label="Password"
+                background-color="white"
+                outlined
+                color="red"
+                type="password"
+                v-model="password"
+                :error-messages="errors"
+                required
+              ></v-text-field>
+            </ValidationProvider>
           </v-col>
         </v-layout>
       </v-container>
 
-      <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1" @click="signIn">
+      <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1" @click="signIn" type="submit" :disabled="invalid" >
         Login
       </v-btn>
 
@@ -66,11 +86,32 @@
         </v-btn>
       </v-col>
     </v-form>
+  </ValidationObserver>
   </v-app>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+//
+import { required, email, max } from 'vee-validate/dist/rules';
+import {
+  extend, ValidationObserver, ValidationProvider, setInteractionMode,
+} from 'vee-validate';
+
+setInteractionMode('eager');
+extend('required', {
+  ...required,
+  message: '{_field_} cannot be empty',
+});
+// for validating maximum field length (might be useful for later)
+extend('max', {
+  ...max,
+  message: '{_field_} may not be greater than {length} characters',
+});
+extend('email', {
+  ...email,
+  message: 'Please enter a valid email address',
+});
 
 export default {
   name: 'Login',
@@ -79,6 +120,10 @@ export default {
       email: '',
       password: '',
     };
+  },
+  components: {
+    ValidationObserver,
+    ValidationProvider,
   },
   computed: {
     ...mapGetters(['getUser']),
