@@ -35,7 +35,7 @@
       ></v-img>
         <h1 class="MyFont2">Petimist</h1>
         <v-spacer></v-spacer>
-        <v-btn to="../login"> log out </v-btn>
+        <v-btn to="/login">logout</v-btn>
       </v-app-bar>
 
       <v-main>
@@ -52,15 +52,13 @@
 <script>
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// eslint-disable-next-line import/no-cycle
-import router from '@/router';
 import Appointment from './Appointment.vue';
 import Product from './Product.vue';
 import Mypet from './Mypet.vue';
 
 Vue.use(VueRouter);
 
-const routes = new VueRouter({
+const router = new VueRouter({
   routes: [
     {
       path: '/appointment',
@@ -82,7 +80,6 @@ const routes = new VueRouter({
 
 // eslint-disable-next-line no-new
 export default ({
-  routes,
   router,
   data: () => ({
     links: [
