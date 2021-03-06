@@ -9,7 +9,7 @@
     ref="observer"
     v-slot="{ invalid }"
   >
-    <v-form @submit.prevent="submit">
+    <v-form @submit.prevent="signIn">
       <v-card-title class="justify-center mt-8">
         <h1 class="black--text MyFont1">Please Login Your Account</h1>
       </v-card-title>
@@ -53,7 +53,7 @@
         </v-layout>
       </v-container>
 
-      <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1" @click="signIn" type="submit" :disabled="invalid" >
+      <v-btn color="#FFD180" class="mr-16 ma-2 MyFont1" @click="signIn" :disabled="invalid" >
         Login
       </v-btn>
 
@@ -98,7 +98,9 @@ import {
   extend, ValidationObserver, ValidationProvider, setInteractionMode,
 } from 'vee-validate';
 
-setInteractionMode('eager');
+// there is a bug if you set mode=eager,
+// bug is the form will not let you submit unless you unfocus or change focus state.
+setInteractionMode('aggressive');
 extend('required', {
   ...required,
   message: '{_field_} cannot be empty',
