@@ -35,8 +35,16 @@ export default new Vuex.Store({
         .catch((error) => {
           // alert(error.message);
           // fix this later for better front-End
-          alert(error);
+          console.log(error.message);
         });
+    },
+    signOutAction() {
+      firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+      }).catch((error) => {
+        // An error happened.
+        console.log(error.message);
+      });
     },
   },
   modules: {
