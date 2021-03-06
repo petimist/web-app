@@ -4,9 +4,10 @@
       <v-navigation-drawer
           app
           clipped
-          permanent
+          color="#BDBDBD"
+          width="200"
       >
-        <v-list>
+        <v-list class="black--text">
         <v-list-item
             exact v-for="link of links"
             :key="link.title"
@@ -33,6 +34,8 @@
           src="https://media.tenor.com/images/b6816283f39bdc3b46c80a122a603456/tenor.gif"
       ></v-img>
         <h1 class="MyFont2">Petimist</h1>
+        <v-spacer></v-spacer>
+        <v-btn to="../login"> log out </v-btn>
       </v-app-bar>
 
       <v-main>
@@ -49,13 +52,15 @@
 <script>
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// eslint-disable-next-line import/no-cycle
+import router from '@/router';
 import Appointment from './Appointment.vue';
 import Product from './Product.vue';
 import Mypet from './Mypet.vue';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+const routes = new VueRouter({
   routes: [
     {
       path: '/appointment',
@@ -77,6 +82,7 @@ const router = new VueRouter({
 
 // eslint-disable-next-line no-new
 export default ({
+  routes,
   router,
   data: () => ({
     links: [
