@@ -1,3 +1,5 @@
 <template>
-  <div> this is My pet page</div>
+  <div>
+    <h1 align="left"> Pet Info </h1>
+  </div>
 </template>
