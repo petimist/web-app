@@ -14,7 +14,7 @@
             :to="link.to"
         >
           <v-list-item-action>
-            <v-icon>mdi-{{link.icon}}</v-icon>
+            <v-icon>mdi-{{ link.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title> {{ link.title }}</v-list-item-title>
@@ -35,7 +35,7 @@
       ></v-img>
         <h1 class="MyFont2">Petimist</h1>
         <v-spacer></v-spacer>
-        <v-btn to="/login">logout</v-btn>
+        <v-btn>logout</v-btn>
       </v-app-bar>
 
       <v-main>
