@@ -35,7 +35,7 @@
       Login
     </v-btn>
 
-    <v-btn color="#FFD180" class="mr-16 MyFont1">
+    <v-btn color="#FFD180" class="mr-16 MyFont1" @click="googleLogin">
       <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="mr-2"/>
       Google
     </v-btn>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
   name: 'Login',
   data() {
@@ -68,6 +70,16 @@ export default {
   methods: {
     goToRegister() {
       this.$router.push('/register');
+    },
+    googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      // eslint-disable-next-line no-unused-vars
+      firebase.auth().signInWithPopup(provider).then((data) => {
+        this.$store.dispatch('auth/userLogin', data.user);
+        this.$router.replace({ name: 'Dashboard' });
+      }).catch((err) => {
+        alert(`${err.message}`);
+      });
     },
   },
 };
