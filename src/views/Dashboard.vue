@@ -35,7 +35,7 @@
       ></v-img>
         <h1 class="MyFont2">Petimist</h1>
         <v-spacer></v-spacer>
-        <v-btn>logout</v-btn>
+        <v-btn @click="goToLogout">logout</v-btn>
       </v-app-bar>
 
       <v-main>
@@ -100,6 +100,11 @@ export default ({
       },
     ],
   }),
+  methods: {
+    goToLogout() {
+      this.$router.push('/login');
+    },
+  },
 });
 </script>
 
