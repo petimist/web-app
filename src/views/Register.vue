@@ -55,11 +55,13 @@
           ></v-text-field>
 
           <v-checkbox
+              v-model="selected"
               class="MyFont2"
               label="Agree to register"
               color="success"
               value="success"
               hide-details
+              :error-messages="checkBoxErrors"
           ></v-checkbox>
         </v-col>
       </v-layout>
@@ -97,6 +99,7 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      selected: '',
       RegisterSuccess: null,
       RegisterError: null,
       message: 'Already have an account?',
@@ -108,6 +111,7 @@ export default {
     email: { required, email },
     password: { required, minLength: minLength(6) },
     confirmPassword: { required, sameAsPassword: sameAs('password') },
+    selected: { required },
   },
   computed: {
     emailErrors() {
@@ -135,6 +139,13 @@ export default {
       !this.$v.confirmPassword.required && errors.push('Confirm your password');
       // eslint-disable-next-line no-unused-expressions
       !this.$v.confirmPassword.sameAsPassword && errors.push('Password does not match');
+      return errors;
+    },
+    checkBoxErrors() {
+      const errors = [];
+      if (!this.$v.selected.$dirty) return errors;
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.selected.required && errors.push('Must agree to register(Tick checkbox)');
       return errors;
     },
   },
