@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { signOut } from '../utils/facebook';
+
 export default {
   data: () => ({
     links: [
@@ -73,7 +75,10 @@ export default {
   }),
   methods: {
     goToLogout() {
+          signOut();
+
       this.$router.push('/login');
+
     },
   },
 };
@@ -86,4 +91,5 @@ export default {
   font-size: 1cm;
   font-family: 'Architects Daughter', cursive
 }
+
 </style>
