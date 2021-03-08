@@ -47,17 +47,11 @@
         Login
       </v-btn>
 
-      <v-btn
-        color="#FFD180"
-        class="mr-16 MyFont1"
-      >
-        <img
-          src="https://img.icons8.com/clouds/2x/google-logo.png"
-          height="45"
-          class="mr-2"
-        />
-        Google
-      </v-btn>
+      <v-btn color="#FFD180" class="mr-16 MyFont1" @click="googleLogin">
+      <img src="https://img.icons8.com/clouds/2x/google-logo.png" height="45" class="mr-2"/>
+      Google
+    </v-btn>
+      
       <v-btn
         color="#FFD180"
         class="MyFont1"
@@ -108,6 +102,16 @@ export default {
     goToRegister() {
       this.$router.push('/register');
     },
+    googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      // eslint-disable-next-line no-unused-vars
+      firebase.auth().signInWithPopup(provider).then((data) => {
+        this.$store.dispatch('auth/userLogin', data.user);
+        this.$router.replace({ name: 'Dashboard' });
+      }).catch((err) => {
+        alert(`${err.message}`);
+      })
+    },
     facebookPopup() {
       firebase
         .auth()
@@ -124,6 +128,7 @@ export default {
 
           // ...
           console.log('Logged in', credential, user, accessToken);
+          this.$store.dispatch('auth/userLogin', data.user);
           this.$router.push('/dashboard');
         })
         .catch((error) => {
