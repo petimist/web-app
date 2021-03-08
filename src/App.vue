@@ -1,14 +1,31 @@
 <template>
   <v-app>
-  <div id="app">
-    <v-app-bar color="#FFD180">
-      <v-app-bar-nav-icon @click.stop="drawer1 = !drawer1"></v-app-bar-nav-icon>
-    </v-app-bar>
-    <router-view/>
-  </div>
+    <v-container v-if="userExist">
+      <nav-bar />
+    </v-container>
+    <div id="app">
+      <router-view />
+    </div>
   </v-app>
 </template>
 
+<script>
+import { mapGetters } from 'vuex';
+import navBar from './components/navbar.vue';
+
+export default {
+  components: {
+    navBar,
+  },
+  computed: {
+    ...mapGetters(['getUser']),
+    userExist() {
+      console.log(this.getUser);
+      return this.getUser;
+    },
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
