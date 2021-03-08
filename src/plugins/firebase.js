@@ -2,8 +2,10 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import store from '../store/index';
 
+require('dotenv').config();
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// console.log(process.env);
 
 // Use dot env later
 const firebaseConfig = {
