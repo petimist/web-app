@@ -8,7 +8,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-// <<<<<<< feature/PET-43
     user: null,
   },
   mutations: {
@@ -47,35 +46,9 @@ export default new Vuex.Store({
         console.log(error.message);
       });
     },
-  },
-  modules: {
-// =======
-    user: {
-      loggedIn: false,
-      data: null,
-    },
-  },
-  getters: {
-    user(state) {
-      return state.user;
-    },
-    loggedIn(state) {
-      return state.user.loggedIn;
-    },
-  },
-  mutations: {
-    setLogin(state, data) {
-      state.user.loggedIn = data;
-    },
-    setUser(state, data) {
-      state.user.data = data;
-    },
-  },
-  actions: {
     userRegister({ commit }, payload) {
       if (payload) {
         commit('setUser', payload);
-        commit('setLogin', payload === null);
       } else {
         commit('setUser', null);
       }
@@ -84,6 +57,5 @@ export default new Vuex.Store({
       commit('setLogin', payload !== null);
       commit('setUser', payload);
     },
-// >>>>>>> develop
   },
 });
