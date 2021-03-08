@@ -42,7 +42,9 @@
         <!-- Provides the application the proper gutter -->
         <v-container fluid>
           <v-form>
-            this is product
+            <h1 align="left"> Product </h1>
+            <br>
+            <v-divider style="background-color:black"></v-divider>
           </v-form>
         </v-container>
       </v-main>
