@@ -33,7 +33,7 @@ export default new Vuex.Store({
           context.commit('setUser', user);
         })
         .catch((error) => {
-          // alert(error.message);
+          alert(error.message);
           // fix this later for better front-End
           console.log(error.message);
         });

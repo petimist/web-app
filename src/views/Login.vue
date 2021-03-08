@@ -190,7 +190,7 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then((data) => {
-          this.$store.dispatch('auth/userLogin', data.user);
+          this.$store.dispatch('setUserAction', data.user);
           this.$router.replace({ name: 'Dashboard' });
         })
         .catch((err) => {
@@ -213,7 +213,7 @@ export default {
 
           // ...
           console.log('Logged in', credential, user, accessToken);
-          this.$store.dispatch('auth/userLogin', user);
+          this.$store.dispatch('setUserAction', user);
           this.$router.push('/dashboard');
         })
         .catch((error) => {
