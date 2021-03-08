@@ -7,6 +7,9 @@ import Dashboard from '@/views/Dashboard';
 // eslint-disable-next-line import/extensions
 import Login from '../views/Login';
 import Home from '../views/Homepage.vue';
+import Mypet from '../views/Mypet.vue';
+import Product from '../views/Product.vue';
+import Appointment from '../views/Appointment.vue';
 
 Vue.use(VueRouter);
 
@@ -45,6 +48,33 @@ const routes = [
     meta: {
       auth: true,
       title: 'Dashboard',
+    },
+  },
+  {
+    path: '/mypet',
+    name: 'Mypet',
+    component: Mypet,
+    meta: {
+      auth: true,
+      title: 'Mypet',
+    },
+  },
+  {
+    path: '/product',
+    name: 'Product',
+    component: Product,
+    meta: {
+      auth: true,
+      title: 'Product',
+    },
+  },
+  {
+    path: '/appointment',
+    name: 'Appointment',
+    component: Appointment,
+    meta: {
+      auth: true,
+      title: 'Appointment',
     },
   },
 ];

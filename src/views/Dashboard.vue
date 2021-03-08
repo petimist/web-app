@@ -35,7 +35,7 @@
       ></v-img>
         <h1 class="MyFont2">Petimist</h1>
         <v-spacer></v-spacer>
-        <v-btn>logout</v-btn>
+        <v-btn to="/">logout</v-btn>
       </v-app-bar>
 
       <v-main>
@@ -50,37 +50,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Appointment from './Appointment.vue';
-import Product from './Product.vue';
-import Mypet from './Mypet.vue';
-
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/appointment',
-      name: 'Appointment',
-      component: Appointment,
-    },
-    {
-      path: '/product',
-      name: 'Product',
-      component: Product,
-    },
-    {
-      path: '/mypet',
-      name: 'Mypet',
-      component: Mypet,
-    },
-  ],
-});
-
-// eslint-disable-next-line no-new
 export default ({
-  router,
   data: () => ({
     links: [
       {
