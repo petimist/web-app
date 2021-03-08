@@ -163,11 +163,12 @@ export default {
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then(() => {
+            alert('Successfully registered!');
             this.$store.dispatch('signOutAction');
             this.$router.push('/login');
           })
           .catch((err) => {
-            console.log(err.message);
+            alert(err.message);
             this.RegisterError = err.message;
           });
       } else {
