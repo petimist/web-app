@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "vue-cli-service build; firebase deploy",
-    "stop": "firebase hosting:disable"
+    "stop": "firebase hosting:disable",
+    "ui" : "vue ui"
   },
   "dependencies": {
     "@mdi/font": "^5.9.55",
@@ -15,6 +16,7 @@
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "firebase": "^8.2.9",
+    "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.6",

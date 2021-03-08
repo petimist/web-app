@@ -1,9 +1,6 @@
 <template>
   <v-app>
   <div id="app">
-    <v-app-bar color="#FFD180">
-      <v-app-bar-nav-icon @click.stop="drawer1 = !drawer1"></v-app-bar-nav-icon>
-    </v-app-bar>
     <router-view/>
   </div>
   </v-app>
