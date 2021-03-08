@@ -3,7 +3,7 @@
     background: url('https://image.freepik.com/free-photo/abstract-blur-light-gradient-pink-soft-pastel-yellow-wallpaper-background_7636-1347.jpg');
     background-size: cover
   ">
-  <v-form>
+  <v-form @submit.prevent="submitRegister">
     <v-card-title class="justify-center mt-8">
       <h1 class=" black--text MyFont2">Register</h1>
     </v-card-title>
@@ -31,6 +31,7 @@
               outlined color="red"
               type="email"
               hint="Please enter your email"
+              :error-messages="emailErrors"
           ></v-text-field>
 
           <v-text-field
@@ -40,6 +41,7 @@
               outlined color="red"
               type="password"
               hint="Please enter your password"
+              :error-messages="passwordErrors"
           ></v-text-field>
 
           <v-text-field
@@ -49,14 +51,17 @@
               outlined color="red"
               type="password"
               hint="Confirm your password"
+              :error-messages="repeatedPasswordErrors"
           ></v-text-field>
 
           <v-checkbox
+              v-model="selected"
               class="MyFont2"
               label="Agree to register"
               color="success"
               value="success"
               hide-details
+              :error-messages="checkBoxErrors"
           ></v-checkbox>
         </v-col>
       </v-layout>
@@ -69,7 +74,7 @@
           Back to login
         </v-btn>
 
-        <v-btn color="#FFD180" class="MyFont2">
+        <v-btn color="#FFD180" class="MyFont2" type="submit" @click="submitRegister">
           Submit
         </v-btn>
       </v-col>
@@ -80,6 +85,12 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+import {
+  required, email, minLength, sameAs,
+} from 'vuelidate/lib/validators';
+import { validationMixin } from 'vuelidate';
+
 export default {
   name: 'Register',
   data() {
@@ -88,9 +99,81 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      selected: '',
+      RegisterSuccess: null,
+      RegisterError: null,
+      message: 'Already have an account?',
     };
   },
+  mixins: [validationMixin],
+  validations: {
+    name: { required },
+    email: { required, email },
+    password: { required, minLength: minLength(6) },
+    confirmPassword: { required, sameAsPassword: sameAs('password') },
+    selected: { required },
+  },
+  computed: {
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.email.email && errors.push('Must be valid e-mail');
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.email.required && errors.push('E-mail is required');
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.password.required && errors.push('Password is required');
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.password.minLength && errors.push('Password must have atleast 6 character');
+      return errors;
+    },
+    repeatedPasswordErrors() {
+      const errors = [];
+      if (!this.$v.confirmPassword.$dirty) return errors;
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.confirmPassword.required && errors.push('Confirm your password');
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.confirmPassword.sameAsPassword && errors.push('Password does not match');
+      return errors;
+    },
+    checkBoxErrors() {
+      const errors = [];
+      if (!this.$v.selected.$dirty) return errors;
+      // eslint-disable-next-line no-unused-expressions
+      !this.$v.selected.required && errors.push('Must agree to register(Tick checkbox)');
+      return errors;
+    },
+  },
   methods: {
+    submitRegister() {
+      this.$v.$touch();
+      if (this.password === this.confirmPassword) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then((data) => {
+            this.$router.push('/login');
+            data.user
+              .then(() => {
+                this.RegisterSuccess = 'Register Successful! Proceed to Dashboard';
+                this.RegisterError = null;
+                this.message = 'Go to Dashboard';
+                this.$store.dispatch('auth/userRegister', data);
+              });
+          })
+          .catch((err) => {
+            console.log(err.message);
+            this.RegisterError = err.message;
+          });
+      } else {
+        this.RegisterError = 'Password does not match';
+      }
+    },
     backToLogin() {
       this.$router.push('/login');
     },
