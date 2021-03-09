@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -9,18 +8,28 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: null,
+    pets: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
+    },
+    setPets(state, pets) {
+      state.pets = pets;
     },
   },
   getters: {
     getUser(state) {
       return state.user;
     },
+    getPets(state) {
+      return state.pets;
+    },
   },
   actions: {
+    setPetsAction(context, payload) {
+      context.commit('setPets', payload);
+    },
     setUserAction(context, payload) {
       context.commit('setUser', payload);
     },
@@ -57,5 +66,7 @@ export default new Vuex.Store({
       commit('setLogin', payload !== null);
       commit('setUser', payload);
     },
+  },
+  modules: {
   },
 });

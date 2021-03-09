@@ -1,5 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
+
 import store from '../store/index';
 
 require('dotenv').config();
@@ -34,3 +36,6 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch('setUserAction', null);
   }
 });
+
+// for accessing firestore database
+export const db = firebase.firestore();
