@@ -53,25 +53,26 @@
                               md="6"
                           >
                             <v-text-field
-                                label="Name"
-                                background-color="grey"
+                                label="Header"
                                 outlined color="red"
-                                type="name"
-                                hint="Please enter your pet's name"
+                                hint="Please enter your appointment"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Birthday"
-                                background-color="grey"
-                                outlined color="red"
-                                hint="Please enter your pet's birthday"
+                                label="Date"
+                                type="date"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Specie"
-                                background-color="grey"
+                                label="Appointment Detail"
                                 outlined color="red"
-                                hint="Please enter your pet's specie"
+                                hint="Please enter your appointment detail"
+                            ></v-text-field>
+
+                            <v-text-field
+                                label="Contact Information"
+                                outlined color="red"
+                                hint="Please enter your contact information"
                             ></v-text-field>
 
                             <v-btn

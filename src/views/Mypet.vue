@@ -49,6 +49,7 @@
                           <v-text-field
                             label="Birthday"
                             background-color="grey"
+                            type="date"
                             outlined
                             color="red"
                             hint="Please enter your pet's birthday"
