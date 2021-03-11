@@ -5,7 +5,7 @@ import 'firebase/auth';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     user: null,
     pets: [],
@@ -53,9 +53,10 @@ export default new Vuex.Store({
           console.log(error.message);
         });
     },
-    signOutAction() {
+    signOutAction(context) {
       firebase.auth().signOut().then(() => {
         // Sign-out successful.
+        context.commit('setUser', null);
       }).catch((error) => {
         // An error happened.
         console.log(error.message);
@@ -76,3 +77,7 @@ export default new Vuex.Store({
   modules: {
   },
 });
+
+Vue.$store = store;
+
+export default store;

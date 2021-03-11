@@ -3,6 +3,7 @@
 // ensuring sample correctness offline.
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import store from '@/store';
 
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
@@ -47,6 +48,7 @@ function signOut() {
     .signOut()
     .then(() => {
       // Sign-out successful.
+      store.dispatch('setUserAction', null);
       console.log('Signed out!');
     })
     .catch((error) => {
