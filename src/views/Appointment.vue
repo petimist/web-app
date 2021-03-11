@@ -53,26 +53,28 @@
                               md="6"
                           >
                             <v-text-field
-                                label="Header"
-                                outlined color="red"
-                                hint="Please enter your appointment"
-                            ></v-text-field>
-
-                            <v-text-field
                                 label="Date"
+                                background-color="grey"
+                                outlined color="red"
                                 type="date"
+                                hint="Please choose the date for your pet's appointment"
+                                v-model="addAppointment.date"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Appointment Detail"
+                                label="Vet"
+                                background-color="grey"
                                 outlined color="red"
-                                hint="Please enter your appointment detail"
+                                hint="Please enter the vet's contact information (Phone number)"
+                                v-model="addAppointment.vet"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Contact Information"
+                                label="Todo"
+                                background-color="grey"
                                 outlined color="red"
-                                hint="Please enter your contact information"
+                                hint="Please enter the reason of your pet's appointment to the vet"
+                                v-model="addAppointment.todo"
                             ></v-text-field>
 
                             <v-btn
@@ -115,8 +117,15 @@
 </template>
 
 <script>
+import { db } from '../plugins/firebase';
+
 export default {
   data: () => ({
+    addAppointment: {
+      date: '',
+      vet: '',
+      todo: '',
+    },
     links: [
       {
         title: 'Appointment',
@@ -137,8 +146,71 @@ export default {
     dialog: false,
   }),
   methods: {
+    createAppointment() {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .add(this.addAppointment)
+        .then((docRef) => {
+          console.log('Document written with ID: ', docRef.id);
+          this.viewAppointment();
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
+    },
+    viewAppointment() {
+      const readApp = [];
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const tmpDocData = doc.data();
+            tmpDocData.id = doc.id;
+            tmpDocData.editing = false;
+            readApp.push(tmpDocData);
+          });
+          this.$store.dispatch('setAppointmentAction', readApp);
+        });
+    },
+    updateAppointment(id, appointment) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .doc(id)
+        .set(appointment)
+        .then(() => {
+          console.log('Document successfully written!');
+          this.readPets();
+        })
+        .catch((error) => {
+          console.error('Error writing document: ', error);
+        });
+    },
+
+    deleteAppointment(id) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!');
+          this.viewAppointment();
+        })
+        .catch((error) => {
+          console.error('Error removing document: ', error);
+        });
+    },
     closePopUp() {
       this.dialog = false;
+    },
+    clearInput() {
+      this.addAppointment.date = '';
+      this.addAppointment.vet = '';
+      this.addAppointment.todo = '';
     },
   },
 };
