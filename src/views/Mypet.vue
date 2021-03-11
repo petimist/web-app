@@ -31,14 +31,17 @@
                     <v-icon dark> mdi-plus </v-icon>
                   </v-btn>
                 </template>
+
                 <v-card>
+                  <v-toolbar color="#FFD180" light flat dense class="mb-6">
+                    <v-icon class="mr-2">mdi-notebook-edit</v-icon>
+                    <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
+                  </v-toolbar>
                   <v-card-text>
-                    <v-container>
-                      <v-layout align-center justify-center>
-                        <v-col cols="18" sm="11" md="6">
+
+                    <v-form>
                           <v-text-field
                             label="Name"
-                            background-color="grey"
                             outlined
                             color="red"
                             type="name"
@@ -48,7 +51,6 @@
 
                           <v-text-field
                             label="Birthday"
-                            background-color="grey"
                             type="date"
                             outlined
                             color="red"
@@ -58,7 +60,6 @@
 
                           <v-text-field
                             label="Species"
-                            background-color="grey"
                             outlined
                             color="red"
                             hint="Please enter your pet's specie"
@@ -84,9 +85,7 @@
                             Close
                             <v-icon dark> mdi-cancel </v-icon>
                           </v-btn>
-                        </v-col>
-                      </v-layout>
-                    </v-container>
+                    </v-form>
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -95,36 +94,62 @@
             <v-divider style="background-color: black"></v-divider>
           </v-form>
           <!-- TEST BACKEND -->
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-center">Name</th>
-                  <th class="text-center">id</th>
-                  <th class="text-center">action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="pet in pets" :key="pet.id">
-                  <td>{{ pet.name }}</td>
-                  <td>{{ pet.id }}</td>
-                  <td>
-                    <v-btn @click="deletePet(pet.id)">delete </v-btn>
-                    <v-btn @click="pet.editing=true">edit</v-btn>
-                  </td>
-                  <td v-if="pet.editing">
-                    <v-card>
-                      <v-text-field label="pet's name" v-model="pet.name" ></v-text-field>
-                      <v-text-field label="pet's birthday" v-model="pet.birthday" ></v-text-field>
-                      <v-text-field label="pet's species" v-model="pet.species" ></v-text-field>
-                      <v-btn @click="updatePet(pet.id, pet)">ConfirmEdit</v-btn>
-                    </v-card>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-          <!-- TEST BACKEND -->
+
+          <v-container v-if="pets.length > 0">
+            <v-slide-x-reverse-transition
+                class="py-0"
+                group
+            >
+              <v-card v-for="pet in pets" :key="pet.id" class="mb-2" color="#FFD180" height="60" >
+                <v-layout class="black--text">
+                  <v-icon color="black" class="ml-3 mb-1"> mdi-dog-side </v-icon>
+                  <h3 class="MyFont5 mt-4 ml-5">
+                    Name: {{pet.name}}
+                  </h3>
+                  <v-spacer></v-spacer>
+
+                  <v-col cols="auto">
+                    <v-dialog
+                        v-model="dialog2"
+                        transition="dialog-top-transition"
+                        max-width="600"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                        >edit</v-btn>
+                      </template>
+
+                      <template>
+                        <v-card>
+                          <v-toolbar
+                              class="mb-6 black--text"
+                              color="#FFD180"
+                              light
+                              dense
+                          >Please edit your pet's information</v-toolbar>
+                          <v-card-text>
+                            <v-text-field label="pet's name" v-model="pet.name" ></v-text-field>
+                            <v-text-field type="date" label="pet's birthday" v-model="pet.birthday" ></v-text-field>
+                            <v-text-field label="pet's species" v-model="pet.species" ></v-text-field>
+                          </v-card-text>
+                          <v-card-actions class="justify-end">
+                            <v-btn @click="updatePet(pet.id, pet)">Confirm Edit</v-btn>
+                            <v-btn
+                                @click="closePop2"
+                            >Close</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </template>
+                    </v-dialog>
+                  </v-col>
+
+                  <v-btn class="mt-3 ml-3 mr-8" @click="deletePet(pet.id)">delete </v-btn>
+                </v-layout>
+              </v-card>
+            </v-slide-x-reverse-transition>
+          </v-container>
         </v-container>
       </v-main>
     </v-app>
@@ -160,6 +185,7 @@ export default {
       },
     ],
     dialog: false,
+    dialog2: false,
   }),
   created() {
     this.readPets();
@@ -214,6 +240,7 @@ export default {
         .set(pet)
         .then(() => {
           console.log('Document successfully written!');
+          this.closePop2();
           this.readPets();
         })
         .catch((error) => {
@@ -236,6 +263,10 @@ export default {
         });
     },
 
+    closePop2() {
+      this.dialog2 = false;
+    },
+
     closePop() {
       this.dialog = false;
     },
@@ -251,8 +282,8 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap");
 
-.MyFont2 {
-  font-size: 1cm;
+.MyFont5 {
+  font-size: 0.5cm;
   font-family: "Architects Daughter", cursive;
 }
 </style>
