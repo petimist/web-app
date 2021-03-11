@@ -91,7 +91,6 @@ const router = new VueRouter({
   routes,
 });
 
-// Uncaught (in promise) Error: Navigation cancelled from "/login" to "/dashboard" with a new navigation.
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const isLoggedIn = to.matched.some((record) => record.meta.isLoggedIn);
