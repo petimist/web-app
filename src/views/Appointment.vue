@@ -159,6 +159,19 @@ export default {
           console.error('Error adding document: ', error);
         });
     },
+    viewAppointment() {
+      const readApp = [];
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            readApp.push(doc.data());
+          });
+          this.$store.dispatch('setPetsAction', readApp);
+        });
+    },
     closePopUp() {
       this.dialog = false;
     },
