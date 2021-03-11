@@ -1,148 +1,3 @@
-<!--<template>-->
-<!--  <div id="app">-->
-<!--    <v-app>-->
-<!--      <v-navigation-drawer-->
-<!--          app-->
-<!--          clipped-->
-<!--          color="#BDBDBD"-->
-<!--          width="200"-->
-<!--      >-->
-<!--        <v-list class="black&#45;&#45;text">-->
-<!--          <v-list-item-->
-<!--              exact v-for="link of links"-->
-<!--              :key="link.title"-->
-<!--              :to="link.to"-->
-<!--          >-->
-<!--            <v-list-item-action>-->
-<!--              <v-icon>mdi-{{ link.icon }}</v-icon>-->
-<!--            </v-list-item-action>-->
-<!--            <v-list-item-content>-->
-<!--              <v-list-item-title> {{ link.title }}</v-list-item-title>-->
-<!--            </v-list-item-content>-->
-<!--          </v-list-item>-->
-<!--        </v-list>-->
-<!--      </v-navigation-drawer>-->
-
-<!--      <v-main>-->
-<!--        &lt;!&ndash; Provides the application the proper gutter &ndash;&gt;-->
-<!--        <v-container fluid>-->
-<!--          <v-form>-->
-<!--            <div>-->
-<!--              <h1 align="left"> Appointment-->
-<!--                <v-dialog-->
-<!--                    v-model="dialog"-->
-<!--                    persistent-->
-<!--                    max-width="600px"-->
-<!--                >-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-btn fab color="orange" dark-->
-<!--                           v-bind="attrs"-->
-<!--                           v-on="on">-->
-<!--                      <v-icon dark>-->
-<!--                        mdi-plus-->
-<!--                      </v-icon>-->
-<!--                    </v-btn>-->
-<!--                  </template>-->
-<!--                  <v-card>-->
-<!--                    <v-card-text>-->
-<!--                      <v-container>-->
-<!--                        <v-layout align-center justify-center>-->
-<!--                          <v-col-->
-<!--                              cols="18"-->
-<!--                              sm="11"-->
-<!--                              md="6"-->
-<!--                          >-->
-<!--                            <v-text-field-->
-<!--                                label="Date"-->
-<!--                                background-color="grey"-->
-<!--                                outlined color="red"-->
-<!--                                type="date"-->
-<!--                                hint="Please choose the date for your pet's appointment"-->
-<!--                                v-model="addAppointment.date"-->
-<!--                            ></v-text-field>-->
-
-<!--                            <v-text-field-->
-<!--                                label="Date"-->
-<!--                                background-color="grey"-->
-<!--                                outlined color="red"-->
-<!--                                type="date"-->
-<!--                                hint="Please choose the date for your pet's appointment"-->
-<!--                                v-model="addAppointment.date"-->
-<!--                            ></v-text-field>-->
-
-<!--                            <v-text-field-->
-<!--                                label="Vet"-->
-<!--                                background-color="grey"-->
-<!--                                outlined color="red"-->
-<!--                                hint="Please enter the vet's contact information (Phone number)"-->
-<!--                                v-model="addAppointment.vet"-->
-<!--                            ></v-text-field>-->
-
-<!--                            <v-text-field-->
-<!--                                label="Todo"-->
-<!--                                background-color="grey"-->
-<!--                                outlined color="red"-->
-<!--                                hint="Please enter the reason of your pet's appointment to the vet"-->
-<!--                                v-model="addAppointment.todo"-->
-<!--                            ></v-text-field>-->
-
-<!--                            <v-btn-->
-<!--                                class="ma-2"-->
-<!--                                color="green"-->
-<!--                                dark-->
-<!--                                @click="createAppointment"-->
-<!--                            >-->
-<!--                              Add-->
-<!--                              <v-icon dark>-->
-<!--                                mdi-checkbox-marked-circle-->
-<!--                              </v-icon>-->
-<!--                            </v-btn>-->
-
-<!--                            <v-btn-->
-<!--                                class="ma-2"-->
-<!--                                color="red"-->
-<!--                                dark-->
-<!--                                @click="closePopUp"-->
-<!--                            >-->
-<!--                              Close-->
-<!--                              <v-icon dark>-->
-<!--                                mdi-cancel-->
-<!--                              </v-icon>-->
-<!--                            </v-btn>-->
-<!--                          </v-col>-->
-<!--                        </v-layout>-->
-<!--                      </v-container>-->
-<!--                    </v-card-text>-->
-<!--                  </v-card>-->
-<!--                </v-dialog>-->
-<!--              </h1>-->
-<!--              <br>-->
-<!--              <v-divider style="background-color:black"></v-divider>-->
-<!--              <v-simple-table>-->
-<!--                <template v-slot:default>-->
-<!--                  <thead>-->
-<!--                  <tr>-->
-<!--                    <th class="text-center">Name</th>-->
-<!--                    <th class="text-center">id</th>-->
-<!--                    <th class="text-center">action</th>-->
-<!--                  </tr>-->
-<!--                  </thead>-->
-<!--                  <tbody>-->
-<!--                  <tr v-for="appointment in appointments" :key="appointment.id">-->
-<!--                    <td>{{ appointment.todo }}</td>-->
-<!--                  </tr>-->
-<!--                  </tbody>-->
-<!--                </template>-->
-<!--              </v-simple-table>-->
-
-<!--            </div>-->
-<!--          </v-form>-->
-<!--        </v-container>-->
-<!--      </v-main>-->
-<!--    </v-app>-->
-<!--  </div>-->
-<!--</template>-->
-
 <template>
   <div id="app">
     <v-app>
@@ -283,15 +138,16 @@
                               color="#FFD180"
                               light
                               dense
-                          >Please edit your pet's information</v-toolbar>
+                          >Please edit your pet's appointment information</v-toolbar>
                           <v-card-text>
                             <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="appointment.todo" >
                             </v-text-field>
                             <v-text-field type="date" label="Please choose the date for your pet's appointment" v-model="appointment.date" >
                             </v-text-field>
-                            <v-text-field label="Please choose the time for your pet's appointment" v-model="appointment.time" ></v-text-field>
-
-                            <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointment.vet" ></v-text-field>
+                            <v-text-field label="Please choose the time for your pet's appointment" v-model="appointment.time" >
+                            </v-text-field>
+                            <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointment.vet" >
+                            </v-text-field>
                           </v-card-text>
                           <v-card-actions class="justify-end">
                             <v-btn @click="updateAppointment(appointment.id, appointment)">Confirm Edit</v-btn>
@@ -395,7 +251,7 @@ export default {
         .set(appointment)
         .then(() => {
           console.log('Document successfully written!');
-          this.readPets();
+          this.closePop2();
         })
         .catch((error) => {
           console.error('Error writing document: ', error);
