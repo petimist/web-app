@@ -49,6 +49,7 @@
                           <v-text-field
                             label="Birthday"
                             background-color="grey"
+                            type="date"
                             outlined
                             color="red"
                             hint="Please enter your pet's birthday"
@@ -56,12 +57,12 @@
                           ></v-text-field>
 
                           <v-text-field
-                            label="Specie"
+                            label="Species"
                             background-color="grey"
                             outlined
                             color="red"
                             hint="Please enter your pet's specie"
-                            v-model="petToAdd.specie"
+                            v-model="petToAdd.species"
                           ></v-text-field>
 
                           <v-btn
@@ -78,7 +79,7 @@
                             class="ma-2"
                             color="red"
                             dark
-                            @click="closepop"
+                            @click="closePop"
                           >
                             Close
                             <v-icon dark> mdi-cancel </v-icon>
@@ -93,25 +94,36 @@
             <br />
             <v-divider style="background-color: black"></v-divider>
           </v-form>
-          <h4><v-btn @click="readPets">read</v-btn></h4>
-          <h1>{{ this.getPets }}</h1>
           <!-- TEST BACKEND -->
-          <!-- <v-simple-table>
+          <v-simple-table>
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">id</th>
+                  <th class="text-center">Name</th>
+                  <th class="text-center">id</th>
+                  <th class="text-center">action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="pet in this.getPets" :key="pet.id">
+                <tr v-for="pet in pets" :key="pet.id">
                   <td>{{ pet.name }}</td>
                   <td>{{ pet.id }}</td>
+                  <td>
+                    <v-btn @click="deletePet(pet.id)">delete </v-btn>
+                    <v-btn @click="pet.editing=true">edit</v-btn>
+                  </td>
+                  <td v-if="pet.editing">
+                    <v-card>
+                      <v-text-field label="pet's name" v-model="pet.name" ></v-text-field>
+                      <v-text-field label="pet's birthday" v-model="pet.birthday" ></v-text-field>
+                      <v-text-field label="pet's species" v-model="pet.species" ></v-text-field>
+                      <v-btn @click="updatePet(pet.id, pet)">ConfirmEdit</v-btn>
+                    </v-card>
+                  </td>
                 </tr>
               </tbody>
             </template>
-          </v-simple-table> -->
+          </v-simple-table>
           <!-- TEST BACKEND -->
         </v-container>
       </v-main>
@@ -128,7 +140,7 @@ export default {
     petToAdd: {
       name: '',
       birthday: '',
-      specie: '',
+      species: '',
     },
     links: [
       {
@@ -149,8 +161,14 @@ export default {
     ],
     dialog: false,
   }),
+  created() {
+    this.readPets();
+  },
   computed: {
     ...mapGetters(['getUser', 'getPets']),
+    pets() {
+      return this.getPets;
+    },
   },
   methods: {
     createPet() {
@@ -161,7 +179,8 @@ export default {
         .then((docRef) => {
           console.log('Document written with ID: ', docRef.id);
           this.readPets();
-          this.closepop();
+          this.closePop();
+          // clear petToAdd
           this.clearInput();
         })
         .catch((error) => {
@@ -176,15 +195,54 @@ export default {
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            tmpPets.push(doc.data());
+            const tmpDocData = doc.data();
+            tmpDocData.id = doc.id;
+            tmpDocData.editing = false;
+            tmpPets.push(tmpDocData);
             // doc.data() is never undefined for query doc snapshots
             // console.log(doc.id, ' => ', doc.data());
           });
           this.$store.dispatch('setPetsAction', tmpPets);
         });
     },
-    closepop() {
+
+    updatePet(id, pet) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('pets')
+        .doc(id)
+        .set(pet)
+        .then(() => {
+          console.log('Document successfully written!');
+          this.readPets();
+        })
+        .catch((error) => {
+          console.error('Error writing document: ', error);
+        });
+    },
+
+    deletePet(id) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('pets')
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!');
+          this.readPets();
+        })
+        .catch((error) => {
+          console.error('Error removing document: ', error);
+        });
+    },
+
+    closePop() {
       this.dialog = false;
+    },
+    clearInput() {
+      this.petToAdd.name = '';
+      this.petToAdd.birthday = '';
+      this.petToAdd.species = '';
     },
   },
 };
