@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-container v-if="userExist">
+    <!-- fix this, it should disappear on logout -->
+    <v-container v-if="this.$store.state.user">
       <nav-bar />
     </v-container>
     <div id="app">
@@ -10,19 +11,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+
 import navBar from './components/navbar.vue';
 
 export default {
   components: {
     navBar,
-  },
-  computed: {
-    ...mapGetters(['getUser']),
-    userExist() {
-      console.log(this.getUser);
-      return this.getUser;
-    },
   },
 };
 </script>

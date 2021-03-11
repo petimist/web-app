@@ -191,7 +191,7 @@ export default {
         .signInWithPopup(provider)
         .then((data) => {
           this.$store.dispatch('setUserAction', data.user);
-          this.$router.replace({ name: 'Dashboard' });
+          this.$router.push('/dashboard');
         })
         .catch((err) => {
           alert(`${err.message}`);

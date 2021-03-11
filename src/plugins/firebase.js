@@ -1,8 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-
-import store from '../store/index';
+import store from '@/store';
 
 require('dotenv').config();
 // Your web app's Firebase configuration
@@ -31,11 +30,11 @@ firebase.getCurrentUser = () => new Promise((resolve, reject) => {
 });
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
+    console.log('logged in', user);
     store.dispatch('setUserAction', user);
   } else {
     store.dispatch('setUserAction', null);
   }
 });
-
 // for accessing firestore database
 export const db = firebase.firestore();
