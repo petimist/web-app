@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     pets: [],
+    appointments: [],
   },
   mutations: {
     setUser(state, user) {
@@ -17,8 +18,8 @@ export default new Vuex.Store({
     setPets(state, pets) {
       state.pets = pets;
     },
-    setAppointment(state, appointment) {
-      state.appointment = appointment.pets;
+    setAppointments(state, appointments) {
+      state.appointments = appointments;
     },
   },
   getters: {
@@ -28,10 +29,13 @@ export default new Vuex.Store({
     getPets(state) {
       return state.pets;
     },
+    getAppointments(state) {
+      return state.appointments;
+    },
   },
   actions: {
-    setAppointmentAction(context, payload) {
-      context.commit('setAppointment', payload);
+    setAppointmentsAction(context, payload) {
+      context.commit('setAppointments', payload);
     },
     setPetsAction(context, payload) {
       context.commit('setPets', payload);
