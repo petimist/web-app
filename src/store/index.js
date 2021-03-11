@@ -30,6 +30,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setAppointmentAction(context, payload) {
+      context.commit('setAppointment', payload);
+    },
     setPetsAction(context, payload) {
       context.commit('setPets', payload);
     },

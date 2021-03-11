@@ -162,7 +162,7 @@ export default {
           console.log('Document written with ID: ', docRef.id);
           this.readPets();
           this.closepop();
-          // clear petToAdd
+          this.clearInput();
         })
         .catch((error) => {
           console.error('Error adding document: ', error);

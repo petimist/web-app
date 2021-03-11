@@ -167,13 +167,35 @@ export default {
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            readApp.push(doc.data());
+            const tmpDocData = doc.data();
+            tmpDocData.id = doc.id;
+            tmpDocData.editing = false;
+            readApp.push(tmpDocData);
           });
-          this.$store.dispatch('setPetsAction', readApp);
+          this.$store.dispatch('setAppointmentAction', readApp);
+        });
+    },
+    updatePet(id, appointment) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .doc(id)
+        .set(appointment)
+        .then(() => {
+          console.log('Document successfully written!');
+          this.readPets();
+        })
+        .catch((error) => {
+          console.error('Error writing document: ', error);
         });
     },
     closePopUp() {
       this.dialog = false;
+    },
+    clearInput() {
+      this.addAppointment.date = '';
+      this.addAppointment.vet = '';
+      this.addAppointment.todo = '';
     },
   },
 };
