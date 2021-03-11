@@ -1,26 +1,45 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     user: null,
+    pets: [],
+    appointments: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
+    },
+    setPets(state, pets) {
+      state.pets = pets;
+    },
+    setAppointments(state, appointments) {
+      state.appointments = appointments;
     },
   },
   getters: {
     getUser(state) {
       return state.user;
     },
+    getPets(state) {
+      return state.pets;
+    },
+    getAppointments(state) {
+      return state.appointments;
+    },
   },
   actions: {
+    setAppointmentsAction(context, payload) {
+      context.commit('setAppointments', payload);
+    },
+    setPetsAction(context, payload) {
+      context.commit('setPets', payload);
+    },
     setUserAction(context, payload) {
       context.commit('setUser', payload);
     },
@@ -38,9 +57,10 @@ export default new Vuex.Store({
           console.log(error.message);
         });
     },
-    signOutAction() {
+    signOutAction(context) {
       firebase.auth().signOut().then(() => {
         // Sign-out successful.
+        context.commit('setUser', null);
       }).catch((error) => {
         // An error happened.
         console.log(error.message);
@@ -58,4 +78,10 @@ export default new Vuex.Store({
       commit('setUser', payload);
     },
   },
+  modules: {
+  },
 });
+
+Vue.$store = store;
+
+export default store;

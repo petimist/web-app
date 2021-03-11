@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// eslint-disable-next-line import/extensions
-import Register from '@/views/Register';
-// eslint-disable-next-line import/extensions
-import Dashboard from '@/views/Dashboard';
-// eslint-disable-next-line import/extensions
-import Login from '../views/Login';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import Register from '@/views/Register.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import Login from '../views/Login.vue';
 import Home from '../views/Homepage.vue';
 import Mypet from '../views/Mypet.vue';
 import Product from '../views/Product.vue';
@@ -19,7 +19,8 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      auth: true,
+      requiresAuth: false,
+      isLoggedIn: false,
       title: 'Home',
     },
   },
@@ -28,7 +29,8 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      auth: true,
+      requiresAuth: false,
+      isLoggedIn: false,
       title: 'Login',
     },
   },
@@ -37,7 +39,8 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      auth: true,
+      requiresAuth: false,
+      isLoggedIn: false,
       title: 'Register',
     },
   },
@@ -46,7 +49,8 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      auth: true,
+      requiresAuth: true,
+      isLoggedIn: true,
       title: 'Dashboard',
     },
   },
@@ -55,8 +59,9 @@ const routes = [
     name: 'Mypet',
     component: Mypet,
     meta: {
-      auth: true,
-      title: 'Mypet',
+      requiresAuth: true,
+      isLoggedIn: true,
+      title: 'My pet',
     },
   },
   {
@@ -64,7 +69,8 @@ const routes = [
     name: 'Product',
     component: Product,
     meta: {
-      auth: true,
+      requiresAuth: true,
+      isLoggedIn: true,
       title: 'Product',
     },
   },
@@ -73,14 +79,28 @@ const routes = [
     name: 'Appointment',
     component: Appointment,
     meta: {
-      auth: true,
+      requiresAuth: true,
+      isLoggedIn: true,
       title: 'Appointment',
     },
   },
 ];
 
 const router = new VueRouter({
+  mode: 'hash',
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const isLoggedIn = to.matched.some((record) => record.meta.isLoggedIn);
+
+  if (requiresAuth && !(await firebase.getCurrentUser())) {
+    next('');
+  } else if (!isLoggedIn && (await firebase.getCurrentUser())) {
+    next('dashboard');
+  }
+  next();
 });
 
 router.afterEach((to) => {
@@ -88,5 +108,7 @@ router.afterEach((to) => {
     document.title = `${to.meta.title} | Petimist`;
   }
 });
+
+Vue.$router = router;
 
 export default router;

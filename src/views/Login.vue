@@ -191,7 +191,6 @@ export default {
         .signInWithPopup(provider)
         .then((data) => {
           this.$store.dispatch('setUserAction', data.user);
-          this.$router.replace({ name: 'Dashboard' });
         })
         .catch((err) => {
           alert(`${err.message}`);
@@ -214,7 +213,6 @@ export default {
           // ...
           console.log('Logged in', credential, user, accessToken);
           this.$store.dispatch('setUserAction', user);
-          this.$router.push('/dashboard');
         })
         .catch((error) => {
           // Handle Errors here.

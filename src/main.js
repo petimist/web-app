@@ -1,15 +1,16 @@
+import vuetify from '@/plugins/vuetify';
+import 'firebase/auth';
+import store from '@/store';
+import router from '@/router';
 import Vue from 'vue';
-import './plugins/firebase';
 import App from './App.vue';
-import vuetify from './plugins/vuetify';
-import router from './router';
-import store from './store';
+import '@/plugins/firebase';
 
 Vue.config.productionTip = false;
 
 new Vue({
+  render: (createApp) => createApp(App),
+  store,
   vuetify,
   router,
-  store,
-  render: (h) => h(App),
 }).$mount('#app');
