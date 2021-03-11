@@ -63,17 +63,16 @@
                                 type="date"
                             ></v-text-field>
 
-                            <h1>Time</h1>
-                            <br>
                             <v-time-picker
                                 v-model="picker"
                                 format="ampm"
                             >
-                              <v-btn @click="setTime">Click me</v-btn>
+<!--                              <v-btn @click="setTime">Click me</v-btn>-->
                             </v-time-picker>
 
                             <v-text-field
                                 label="Appointment Detail"
+                                class="mt-7"
                                 outlined color="red"
                                 hint="Please enter your appointment detail"
                             ></v-text-field>
