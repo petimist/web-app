@@ -17,6 +17,9 @@ export default new Vuex.Store({
     setPets(state, pets) {
       state.pets = pets;
     },
+    setAppointment(state, appointment) {
+      state.appointment = appointment.pets;
+    },
   },
   getters: {
     getUser(state) {

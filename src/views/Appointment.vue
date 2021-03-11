@@ -53,25 +53,28 @@
                               md="6"
                           >
                             <v-text-field
-                                label="Name"
+                                label="Date"
                                 background-color="grey"
                                 outlined color="red"
-                                type="name"
-                                hint="Please enter your pet's name"
+                                type="date"
+                                hint="Please choose the date for your pet's appointment"
+                                v-model="addAppointment.date"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Birthday"
+                                label="Vet"
                                 background-color="grey"
                                 outlined color="red"
-                                hint="Please enter your pet's birthday"
+                                hint="Please enter the vet's contact information (Phone number)"
+                                v-model="addAppointment.vet"
                             ></v-text-field>
 
                             <v-text-field
-                                label="Specie"
+                                label="Todo"
                                 background-color="grey"
                                 outlined color="red"
-                                hint="Please enter your pet's specie"
+                                hint="Please enter the reason of your pet's appointment to the vet"
+                                v-model="addAppointment.todo"
                             ></v-text-field>
 
                             <v-btn
@@ -114,8 +117,15 @@
 </template>
 
 <script>
+import { db } from '../plugins/firebase';
+
 export default {
   data: () => ({
+    addAppointment: {
+      date: '',
+      vet: '',
+      todo: '',
+    },
     links: [
       {
         title: 'Appointment',
@@ -136,6 +146,19 @@ export default {
     dialog: false,
   }),
   methods: {
+    createAppointment() {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .add(this.addAppointment)
+        .then((docRef) => {
+          console.log('Document written with ID: ', docRef.id);
+          this.viewAppointment();
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
+    },
     closePopUp() {
       this.dialog = false;
     },
