@@ -63,6 +63,15 @@
                                 type="date"
                             ></v-text-field>
 
+                            <h1>Time</h1>
+                            <br>
+                            <v-time-picker
+                                v-model="picker"
+                                format="ampm"
+                            >
+                              <v-btn @click="setTime">Click me</v-btn>
+                            </v-time-picker>
+
                             <v-text-field
                                 label="Appointment Detail"
                                 outlined color="red"
@@ -135,10 +144,14 @@ export default {
       },
     ],
     dialog: false,
+    picker: null,
   }),
   methods: {
     closePopUp() {
       this.dialog = false;
+    },
+    setTime() {
+      console.log(this.picker);
     },
   },
 };

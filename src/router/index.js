@@ -7,7 +7,7 @@ import Dashboard from '@/views/Dashboard';
 // eslint-disable-next-line import/extensions
 import Login from '../views/Login';
 import Home from '../views/Homepage.vue';
-import Mypet from '../views/Mypet.vue';
+import Mypet from '../views/MyPet.vue';
 import Product from '../views/Product.vue';
 import Appointment from '../views/Appointment.vue';
 
