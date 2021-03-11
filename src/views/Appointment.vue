@@ -175,7 +175,7 @@ export default {
           this.$store.dispatch('setAppointmentAction', readApp);
         });
     },
-    updatePet(id, appointment) {
+    updateAppointment(id, appointment) {
       db.collection('users')
         .doc(this.getUser.uid)
         .collection('appointment')
