@@ -110,6 +110,7 @@
 
                   <v-col cols="auto">
                     <v-dialog
+                        v-model="dialog2"
                         transition="dialog-top-transition"
                         max-width="600"
                     >
@@ -120,7 +121,7 @@
                         >edit</v-btn>
                       </template>
 
-                      <template v-slot:default="dialog">
+                      <template>
                         <v-card>
                           <v-toolbar
                               class="mb-6 black--text"
@@ -134,9 +135,9 @@
                             <v-text-field label="pet's species" v-model="pet.species" ></v-text-field>
                           </v-card-text>
                           <v-card-actions class="justify-end">
-                            <v-btn @click="updatePet(pet.id, pet)">ConfirmEdit</v-btn>
+                            <v-btn @click="updatePet(pet.id, pet)">Confirm Edit</v-btn>
                             <v-btn
-                                @click="dialog.value = false"
+                                @click="closePop2"
                             >Close</v-btn>
                           </v-card-actions>
                         </v-card>
@@ -184,6 +185,7 @@ export default {
       },
     ],
     dialog: false,
+    dialog2: false,
   }),
   created() {
     this.readPets();
@@ -238,6 +240,7 @@ export default {
         .set(pet)
         .then(() => {
           console.log('Document successfully written!');
+          this.closePop2();
           this.readPets();
         })
         .catch((error) => {
@@ -258,6 +261,10 @@ export default {
         .catch((error) => {
           console.error('Error removing document: ', error);
         });
+    },
+
+    closePop2() {
+      this.dialog2 = false;
     },
 
     closePop() {
