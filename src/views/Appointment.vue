@@ -189,6 +189,21 @@ export default {
           console.error('Error writing document: ', error);
         });
     },
+
+    deleteAppointment(id) {
+      db.collection('users')
+        .doc(this.getUser.uid)
+        .collection('appointment')
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!');
+          this.viewAppointment();
+        })
+        .catch((error) => {
+          console.error('Error removing document: ', error);
+        });
+    },
     closePopUp() {
       this.dialog = false;
     },
