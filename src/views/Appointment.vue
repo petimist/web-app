@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <v-app>
       <v-navigation-drawer app clipped color="#BDBDBD" width="200">
         <v-list class="black--text">
           <v-list-item
@@ -19,8 +18,6 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-main>
-        <!-- Provides the application the proper gutter -->
         <v-container fluid>
           <v-form>
             <h1 align="left">
@@ -166,8 +163,6 @@
             </v-slide-x-reverse-transition>
           </v-container>
         </v-container>
-      </v-main>
-    </v-app>
   </div>
 </template>
 

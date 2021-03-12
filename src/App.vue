@@ -1,17 +1,18 @@
 <template>
   <v-app>
-    <!-- fix this, it should disappear on logout -->
-    <v-container v-if="this.$store.state.user">
-      <nav-bar />
-    </v-container>
-    <div id="app">
-      <router-view />
-    </div>
+    <v-main>
+      <!-- fix this, it should disappear on logout -->
+      <v-container v-if="this.$store.state.user">
+        <nav-bar />
+      </v-container>
+      <div id="app">
+        <router-view />
+      </div>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-
 import navBar from './components/navbar.vue';
 
 export default {

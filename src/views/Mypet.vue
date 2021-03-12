@@ -1,199 +1,183 @@
 <template>
   <div id="app">
-    <v-app>
-      <v-navigation-drawer
-        app
-        clipped
-        color="#BDBDBD"
-        width="200"
-      >
-        <v-list class="black--text">
-          <v-list-item
-            exact
-            v-for="link of links"
-            :key="link.title"
-            :to="link.to"
+    <v-navigation-drawer
+      app
+      clipped
+      color="#BDBDBD"
+      width="200"
+    >
+      <v-list class="black--text">
+        <v-list-item
+          exact
+          v-for="link of links"
+          :key="link.title"
+          :to="link.to"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-{{ link.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title> {{ link.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid>
+      <v-form>
+        <h1 align="left">
+          Pet Info
+          <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="600px"
           >
-            <v-list-item-action>
-              <v-icon>mdi-{{ link.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{ link.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-
-      <v-main>
-        <!-- Provides the application the proper gutter -->
-        <v-container fluid>
-          <v-form>
-            <h1 align="left">
-              Pet Info
-              <v-dialog
-                v-model="dialog"
-                persistent
-                max-width="600px"
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                fab
+                color="orange"
+                dark
+                v-bind="attrs"
+                v-on="on"
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    fab
-                    color="orange"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon dark> mdi-plus </v-icon>
-                  </v-btn>
-                </template>
+                <v-icon dark> mdi-plus </v-icon>
+              </v-btn>
+            </template>
 
-                <v-card>
-                  <v-toolbar
-                    color="#FFD180"
-                    light
-                    flat
-                    dense
-                    class="mb-6"
-                  >
-                    <v-icon class="mr-2">mdi-notebook-edit</v-icon>
-                    <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
-                  </v-toolbar>
-                  <v-card-text>
-
-                    <v-form>
-                      <v-text-field
-                        label="Name"
-                        outlined
-                        color="red"
-                        type="name"
-                        hint="Please enter your pet's name"
-                        v-model="petToAdd.name"
-                      ></v-text-field>
-
-                      <v-text-field
-                        label="Birthday"
-                        type="date"
-                        outlined
-                        color="red"
-                        hint="Please enter your pet's birthday"
-                        v-model="petToAdd.birthday"
-                      ></v-text-field>
-
-                      <v-text-field
-                        label="Species"
-                        outlined
-                        color="red"
-                        hint="Please enter your pet's specie"
-                        v-model="petToAdd.species"
-                      ></v-text-field>
-
-                      <v-btn
-                        @click="createPet"
-                        class="ma-2"
-                        color="green"
-                        dark
-                      >
-                        Add
-                        <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-                      </v-btn>
-
-                      <v-btn
-                        class="ma-2"
-                        color="red"
-                        dark
-                        @click="closePop"
-                      >
-                        Close
-                        <v-icon dark> mdi-cancel </v-icon>
-                      </v-btn>
-                    </v-form>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
-            </h1>
-            <br />
-            <v-divider style="background-color: black"></v-divider>
-          </v-form>
-          <!-- TEST BACKEND -->
-
-          <v-container v-if="pets.length > 0">
-            <v-slide-x-reverse-transition
-              class="py-0"
-              group
-            >
-              <v-card
-                v-for="pet in pets"
-                :key="pet.id"
-                class="mb-2"
+            <v-card>
+              <v-toolbar
                 color="#FFD180"
-                height="60"
+                light
+                flat
+                dense
+                class="mb-6"
               >
-                <v-layout class="black--text">
-                  <v-icon
-                    color="black"
-                    class="ml-3 mb-1"
-                  > mdi-dog-side </v-icon>
-                  <h3 class="MyFont5 mt-4 ml-5">
-                    Name: {{pet.name}}
-                  </h3>
-                  <v-spacer></v-spacer>
+                <v-icon class="mr-2">mdi-notebook-edit</v-icon>
+                <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
 
-                  <v-col cols="auto">
-                    <v-dialog
-                      v-model="dialog2"
-                      transition="dialog-top-transition"
-                      max-width="600"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          v-bind="attrs"
-                          v-on="on"
-                        >edit</v-btn>
-                      </template>
+                <v-form>
+                  <v-text-field
+                    label="Name"
+                    outlined
+                    color="red"
+                    type="name"
+                    hint="Please enter your pet's name"
+                    v-model="petToAdd.name"
+                  ></v-text-field>
 
-                      <template>
-                        <v-card>
-                          <v-toolbar
-                            class="mb-6 black--text"
-                            color="#FFD180"
-                            light
-                            dense
-                          >Please edit your pet's information</v-toolbar>
-                          <v-card-text>
-                            <v-text-field
-                              label="pet's name"
-                              v-model="pet.name"
-                            ></v-text-field>
-                            <v-text-field
-                              type="date"
-                              label="pet's birthday"
-                              v-model="pet.birthday"
-                            ></v-text-field>
-                            <v-text-field
-                              label="pet's species"
-                              v-model="pet.species"
-                            ></v-text-field>
-                          </v-card-text>
-                          <v-card-actions class="justify-end">
-                            <v-btn @click="updatePet(pet.id, pet)">Confirm Edit</v-btn>
-                            <v-btn @click="closePop2">Close</v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </template>
-                    </v-dialog>
-                  </v-col>
+                  <v-text-field
+                    label="Birthday"
+                    type="date"
+                    outlined
+                    color="red"
+                    hint="Please enter your pet's birthday"
+                    v-model="petToAdd.birthday"
+                  ></v-text-field>
+
+                  <v-text-field
+                    label="Species"
+                    outlined
+                    color="red"
+                    hint="Please enter your pet's specie"
+                    v-model="petToAdd.species"
+                  ></v-text-field>
 
                   <v-btn
-                    class="mt-3 ml-3 mr-8"
-                    @click="deletePet(pet.id)"
-                  >delete </v-btn>
-                </v-layout>
-              </v-card>
-            </v-slide-x-reverse-transition>
-          </v-container>
-        </v-container>
-      </v-main>
-    </v-app>
+                    @click="createPet"
+                    class="ma-2"
+                    color="green"
+                    dark
+                  >
+                    Add
+                    <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+                  </v-btn>
+
+                  <v-btn
+                    class="ma-2"
+                    color="red"
+                    dark
+                    @click="closePop"
+                  >
+                    Close
+                    <v-icon dark> mdi-cancel </v-icon>
+                  </v-btn>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </h1>
+        <br />
+        <v-divider style="background-color: black"></v-divider>
+      </v-form>
+      <!-- TEST BACKEND -->
+
+      <v-container v-if="pets.length > 0">
+        <v-slide-x-reverse-transition
+          class="py-0"
+          group
+        >
+          <v-card
+            v-for="pet in pets"
+            :key="pet.id"
+            class="mb-2"
+            color="#FFD180"
+            height="60"
+          >
+            <v-layout class="black--text">
+              <v-icon
+                color="black"
+                class="ml-3 mb-1"
+              > mdi-dog-side </v-icon>
+              <h3 class="MyFont5 mt-4 ml-5">
+                Name: {{pet.name}}
+              </h3>
+              <v-spacer></v-spacer>
+              <v-col cols="auto">
+                <v-btn @click="choosePetToEdit(pet)">edit</v-btn>
+              </v-col>
+              <v-btn
+                class="mt-3 ml-3 mr-8"
+                @click="deletePet(pet.id)"
+              >delete </v-btn>
+            </v-layout>
+          </v-card>
+        </v-slide-x-reverse-transition>
+      </v-container>
+      <v-container v-if="editPet">
+        <v-overlay :value="overlay">
+            <v-card light width="700">
+              <v-toolbar
+                class="mb-6 black--text"
+                color="#FFD180"
+                light
+                dense
+              >Please edit your pet's information</v-toolbar>
+              <v-card-text>
+                <v-text-field
+                  label="pet's name"
+                  v-model="editPet.name"
+                ></v-text-field>
+                <v-text-field
+                  type="date"
+                  label="pet's birthday"
+                  v-model="editPet.birthday"
+                ></v-text-field>
+                <v-text-field
+                  label="pet's species"
+                  v-model="editPet.species"
+                ></v-text-field>
+              </v-card-text>
+              <v-card-actions class="justify-end">
+                <v-btn @click="updatePet()">Confirm Edit</v-btn>
+                <v-btn @click="overlay = false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+        </v-overlay>
+      </v-container>
+    </v-container>
   </div>
 </template>
 
@@ -206,6 +190,11 @@ import { db } from '../plugins/firebase';
 export default {
   data: () => ({
     petToAdd: {
+      name: '',
+      birthday: '',
+      species: '',
+    },
+    petToEdit: {
       name: '',
       birthday: '',
       species: '',
@@ -228,7 +217,8 @@ export default {
       },
     ],
     dialog: false,
-    dialog2: false,
+    editPet: null,
+    overlay: false,
   }),
   created() {
     const tmpPets = [];
@@ -290,16 +280,16 @@ export default {
         });
     },
 
-    updatePet(id, pet) {
+    updatePet() {
       db.collection('users')
         .doc(this.getUser.uid)
         .collection('pets')
-        .doc(id)
-        .set(pet)
+        .doc(this.editPet.id)
+        .set(this.editPet)
         .then(() => {
           console.log('Document successfully written!');
-          this.closePop2();
           this.readPets();
+          this.choosePetToEdit(null);
         })
         .catch((error) => {
           console.error('Error writing document: ', error);
@@ -320,9 +310,10 @@ export default {
           console.error('Error removing document: ', error);
         });
     },
-
-    closePop2() {
-      this.dialog2 = false;
+    choosePetToEdit(pet) {
+      this.editPet = pet;
+      console.log(this.editPet);
+      this.overlay = !this.overlay;
     },
 
     closePop() {

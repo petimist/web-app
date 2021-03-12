@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <v-app>
       <v-navigation-drawer
           app
           clipped
@@ -23,7 +22,6 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-main>
         <!-- Provides the application the proper gutter -->
         <v-container fluid>
           <v-form>
@@ -32,8 +30,6 @@
             <v-divider style="background-color:black"></v-divider>
           </v-form>
         </v-container>
-      </v-main>
-    </v-app>
   </div>
 </template>
 
