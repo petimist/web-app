@@ -130,9 +130,9 @@
                               dense
                           >Please edit your pet's information</v-toolbar>
                           <v-card-text>
-                            <v-text-field label="pet's name" v-model="pet.name" ></v-text-field>
-                            <v-text-field type="date" label="pet's birthday" v-model="pet.birthday" ></v-text-field>
-                            <v-text-field label="pet's species" v-model="pet.species" ></v-text-field>
+                            <v-text-field color="red" label="pet's name" v-model="pet.name" ></v-text-field>
+                            <v-text-field color="red" type="date" label="pet's birthday" v-model="pet.birthday" ></v-text-field>
+                            <v-text-field color="red" label="pet's species" v-model="pet.species" ></v-text-field>
                           </v-card-text>
                           <v-card-actions class="justify-end">
                             <v-btn @click="updatePet(pet.id, pet)">Confirm Edit</v-btn>
