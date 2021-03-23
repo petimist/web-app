@@ -94,39 +94,29 @@
                   <h3 class="MyFont5 ml-5 mb-2">Tel : {{ appointment.vet }}</h3>
                 </v-row>
               </v-col>
-
-              <v-spacer></v-spacer>
-              <!-- change to overlay -->
-
-              <v-col cols="auto">
-                <v-dialog v-model="dialog2" transition="dialog-top-transition" max-width="600">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn v-bind="attrs" v-on="on">edit</v-btn>
-                  </template>
-
-                  <template>
-                    <v-card>
-                      <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>Please edit your pet's appointment information</v-toolbar>
-                      <v-card-text>
-                        <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="appointment.todo"> </v-text-field>
-                        <v-text-field type="date" label="Please choose the date for your pet's appointment" v-model="appointment.date">
-                        </v-text-field>
-                        <v-text-field label="Please choose the time for your pet's appointment" v-model="appointment.time"> </v-text-field>
-                        <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointment.vet"> </v-text-field>
-                      </v-card-text>
-                      <v-card-actions class="justify-end">
-                        <v-btn @click="updateAppointment(appointment.id, appointment)">Confirm Edit</v-btn>
-                        <v-btn @click="closePop2">Close</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </template>
-                </v-dialog>
-              </v-col>
+              <v-btn class="mt-3 ml-3 mr-8" @click="chooseAppointmentToEdit(appointment)">edit</v-btn>
 
               <v-btn class="mt-3 ml-3 mr-8" @click="deleteAppointment(appointment.id)">delete </v-btn>
             </v-layout>
           </v-card>
         </v-slide-x-reverse-transition>
+      </v-container>
+      <v-container v-if="editAppointment">
+        <v-overlay :value="overlay">
+          <v-card light width="700">
+            <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>Please edit your pet's appointment information</v-toolbar>
+            <v-card-text>
+              <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="appointmentToEdit.todo"> </v-text-field>
+              <v-text-field type="date" label="Please choose the date for your pet's appointment" v-model="appointmentToEdit.date"> </v-text-field>
+              <v-text-field label="Please choose the time for your pet's appointment" v-model="appointmentToEdit.time"> </v-text-field>
+              <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointmentToEdit.vet"> </v-text-field>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn @click="updateAppointment(appointment.id, appointment)">Confirm Edit</v-btn>
+              <v-btn @click="overlay = false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-overlay>
       </v-container>
     </v-container>
   </div>
@@ -144,7 +134,7 @@ export default {
       vet: '',
       todo: '',
     },
-    editAppointment: {
+    appointmentToEdit: {
       date: '',
       time: '',
       vet: '',
@@ -169,6 +159,8 @@ export default {
     ],
     dialog: false,
     dialog2: false,
+    editAppointment: null,
+    overlay: false,
   }),
   created() {
     this.viewAppointment();
@@ -253,6 +245,11 @@ export default {
       this.addAppointment.time = '';
       this.addAppointment.vet = '';
       this.addAppointment.todo = '';
+    },
+    chooseAppointmentToEdit(appointment) {
+      this.editAppointment = appointment;
+      console.log(this.editAppointment);
+      this.overlay = !this.overlay;
     },
   },
 };
