@@ -32,11 +32,11 @@ export default {
         icon: 'book-open-outline',
         to: '/appointment',
       },
-      {
-        title: 'Product',
-        icon: 'food-variant',
-        to: '/product',
-      },
+      // {
+      //   title: 'Product',
+      //   icon: 'food-variant',
+      //   to: '/product',
+      // },
       {
         title: 'My pet',
         icon: 'dog',
