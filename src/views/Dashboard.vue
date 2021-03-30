@@ -27,6 +27,25 @@
           <!-- If using vue-router -->
           <router-view></router-view>
         </v-container>
+
+    <h1 style="font-size: 50px; color: black">Welcome to Petimist!</h1>
+    <br>
+    <h2 style="font-size: 40px; color: black">..... There are four options for you ....</h2>
+    <br>
+    <h3 style="font-size: 30px; color: black">1.You can click on the dog's icon to navigate to your pets</h3>
+    <br>
+    <h3 style="font-size: 30px; color: black">2.You can click on the calendar icon to navigate to your appointments</h3>
+    <br>
+    <h3 style="font-size: 30px; color: black">3.You can click on the product icon to navigate to your pet's products</h3>
+    <br>
+    <h3 style="font-size: 30px; color: black">4.You can click on the logout button to logout</h3>
+
+    <div class="d-flex flex-column align-center">
+      <v-img
+          src="https://diaryofsarita.files.wordpress.com/2015/01/01508-language2bseparator.png?w=1400"
+          max-width="800"
+      ></v-img>
+    </div>
   </div>
 </template>
 
