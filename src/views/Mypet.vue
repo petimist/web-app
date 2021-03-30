@@ -1,18 +1,8 @@
 <template>
   <div id="app">
-    <v-navigation-drawer
-      app
-      clipped
-      color="#BDBDBD"
-      width="200"
-    >
+    <v-navigation-drawer app clipped color="#BDBDBD" width="200">
       <v-list class="black--text">
-        <v-list-item
-          exact
-          v-for="link of links"
-          :key="link.title"
-          :to="link.to"
-        >
+        <v-list-item exact v-for="link of links" :key="link.title" :to="link.to">
           <v-list-item-action>
             <v-icon>mdi-{{ link.icon }}</v-icon>
           </v-list-item-action>
@@ -23,36 +13,19 @@
       </v-list>
     </v-navigation-drawer>
 
-    <!-- Provides the application the proper gutter -->
     <v-container fluid>
       <v-form>
         <h1 align="left">
           Pet Info
-          <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
-          >
+          <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                fab
-                color="orange"
-                dark
-                v-bind="attrs"
-                v-on="on"
-              >
+              <v-btn fab color="orange" dark v-bind="attrs" v-on="on">
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
             </template>
 
             <v-card>
-              <v-toolbar
-                color="#FFD180"
-                light
-                flat
-                dense
-                class="mb-6"
-              >
+              <v-toolbar color="#FFD180" light flat dense class="mb-6">
                 <v-icon class="mr-2">mdi-notebook-edit</v-icon>
                 <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
               </v-toolbar>
@@ -109,39 +82,35 @@
             </v-card>
           </v-dialog>
         </h1>
-        <br />
+        <br/>
         <v-divider style="background-color: black"></v-divider>
       </v-form>
       <!-- TEST BACKEND -->
 
       <v-container v-if="pets.length > 0">
-        <v-slide-x-reverse-transition
-          class="py-0"
-          group
-        >
-          <v-card
-            v-for="pet in pets"
-            :key="pet.id"
-            class="mb-2"
-            color="#FFD180"
-            height="60"
-          >
+        <v-slide-x-reverse-transition class="py-0" group>
+          <v-card v-for="pet in pets" :key="pet.id" class="mb-2" color="#FFD180">
             <v-layout class="black--text">
-              <v-icon
-                color="black"
-                class="ml-3 mb-1"
-              > mdi-dog-side </v-icon>
-              <h3 class="MyFont5 mt-4 ml-5">
-                Name: {{pet.name}}
-              </h3>
-              <v-spacer></v-spacer>
-              <v-col cols="auto">
-                <v-btn @click="choosePetToEdit(pet)">edit</v-btn>
+              <v-icon color="black" class="ml-3 mb-1"> mdi-dog-side </v-icon>
+              <v-col>
+                <v-row>
+                  <h2 class="MyFont1 mt-4 ml-5 brown--text">
+                    {{ pet.name }}
+                  </h2>
+                </v-row>
+                <v-row>
+                  <h3 class="MyFont5 ml-5 mb-2">
+                    Birthday : {{ pet.birthday }}
+                  </h3>
+                </v-row>
+                <v-row>
+                  <h3 class="MyFont5 ml-5 mb-2">
+                    Species : {{ pet.species }}
+                  </h3>
+                </v-row>
               </v-col>
-              <v-btn
-                class="mt-3 ml-3 mr-8"
-                @click="deletePet(pet.id)"
-              >delete </v-btn>
+              <v-btn class="mt-3 ml-3 mr-8" @click="choosePetToEdit(pet)">edit</v-btn>
+              <v-btn class="mt-3 ml-3 mr-8" @click="deletePet(pet.id)">delete </v-btn>
             </v-layout>
           </v-card>
         </v-slide-x-reverse-transition>
@@ -149,26 +118,11 @@
       <v-container v-if="editPet">
         <v-overlay :value="overlay">
             <v-card light width="700">
-              <v-toolbar
-                class="mb-6 black--text"
-                color="#FFD180"
-                light
-                dense
-              >Please edit your pet's information</v-toolbar>
+              <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>Please edit your pet's information</v-toolbar>
               <v-card-text>
-                <v-text-field
-                  label="pet's name"
-                  v-model="editPet.name"
-                ></v-text-field>
-                <v-text-field
-                  type="date"
-                  label="pet's birthday"
-                  v-model="editPet.birthday"
-                ></v-text-field>
-                <v-text-field
-                  label="pet's species"
-                  v-model="editPet.species"
-                ></v-text-field>
+                <v-text-field label="pet's name" v-model="editPet.name"></v-text-field>
+                <v-text-field type="date" label="pet's birthday" v-model="editPet.birthday"></v-text-field>
+                <v-text-field label="pet's species" v-model="editPet.species"></v-text-field>
               </v-card-text>
               <v-card-actions class="justify-end">
                 <v-btn @click="updatePet()">Confirm Edit</v-btn>
