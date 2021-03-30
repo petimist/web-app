@@ -107,8 +107,14 @@
             <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>Please edit your pet's appointment information</v-toolbar>
             <v-card-text>
               <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="appointmentToEdit.todo"> </v-text-field>
-              <v-text-field type="date" label="Please choose the date for your pet's appointment" v-model="appointmentToEdit.date"> </v-text-field>
-              <v-text-field label="Please choose the time for your pet's appointment" v-model="appointmentToEdit.time"> </v-text-field>
+              <v-row>
+                <v-col>
+                  <v-date-picker :min="today" v-model="addAppointment.date"></v-date-picker>
+                </v-col>
+                <v-col>
+                  <v-time-picker v-model="addAppointment.time" format="ampm" class="mb-7"> </v-time-picker>
+                </v-col>
+              </v-row>
               <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointmentToEdit.vet"> </v-text-field>
             </v-card-text>
             <v-card-actions class="justify-end">
