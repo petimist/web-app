@@ -46,6 +46,7 @@
 // import store from '@/store';
 
 import { mapGetters } from 'vuex';
+import firebase from 'firebase/app';
 import { signOut } from '../utils/facebook';
 import { db } from '../plugins/firebase';
 
@@ -96,6 +97,35 @@ export default {
       signOut();
 
       this.$router.push('/');
+    },
+    viewAppointment() {
+      const tip = db.collection('tips');
+      const key = tip.doc().id;
+      tip.where(firebase.firestore.FieldPath.documentId(), '>=', key)
+        .limit(1)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.size > 0) {
+            snapshot.forEach((doc) => {
+              console.log(doc.id, '=>', doc.data());
+            });
+          } else {
+            tip.where(firebase.firestore.FieldPath.documentId(), '<', key)
+              .limit(1)
+              .get()
+              .then(() => {
+                snapshot.forEach((doc) => {
+                  console.log(doc.id, '=>', doc.data());
+                });
+              })
+              .catch((err) => {
+                console.log('Error getting documents', err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.log('Error getting documents', err);
+        });
     },
   },
   computed: {
