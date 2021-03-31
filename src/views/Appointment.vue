@@ -14,49 +14,62 @@
     </v-navigation-drawer>
 
     <v-container fluid>
-      <v-form>
-        <h1 align="left">
-          Appointment
-          <v-dialog v-model="dialog" persistent max-width="670px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn fab color="orange" dark v-bind="attrs" v-on="on">
-                <v-icon dark> mdi-plus </v-icon>
-              </v-btn>
-            </template>
+      <h1 align="left">
+        Appointment
+        <v-dialog v-model="dialog" persistent max-width="670px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn fab color="orange" dark v-bind="attrs" v-on="on">
+              <v-icon dark> mdi-plus </v-icon>
+            </v-btn>
+          </template>
 
-            <v-card>
-              <v-toolbar color="#FFD180" light flat dense class="mb-6">
-                <v-icon class="mr-2">mdi-notebook-edit</v-icon>
-                <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-layout>
+          <v-card>
+            <v-toolbar color="#FFD180" light flat dense class="mb-6">
+              <v-icon class="mr-2">mdi-notebook-edit</v-icon>
+              <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <v-layout>
+                <ValidationObserver ref="observer" v-slot="{ invalid }">
                   <v-form>
-                    <v-text-field
-                      label="Todo"
-                      outlined
-                      color="blue"
-                      hint="Please enter the reason of your pet's appointment to the vet"
-                      v-model="addAppointment.todo"
-                    ></v-text-field>
+                    <ValidationProvider v-slot="{ errors }" name="Todo" rules="required">
+                      <v-text-field
+                        label="What do you need to do?"
+                        outlined
+                        color="blue"
+                        hint="Please enter the reason of your pet's appointment to the vet"
+                        :error-messages="errors"
+                        v-model="addAppointment.todo"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <v-row justify="center">
+                      <h5 class="MyFont5 text-left">Please choose the date and time</h5>
+                    </v-row>
                     <v-row>
                       <v-col>
-                        <v-date-picker :min="today" v-model="addAppointment.date"></v-date-picker>
+                        <ValidationProvider name="date" rules="required">
+                          <v-date-picker :min="today" v-model="addAppointment.date"></v-date-picker>
+                        </ValidationProvider>
                       </v-col>
                       <v-col>
-                        <v-time-picker v-model="addAppointment.time" format="ampm" class="mb-7"> </v-time-picker>
+                        <v-time-picker v-model="addAppointment.time" format="ampm" class="mb-7" :disabled="addAppointment.date ? false : true">
+                        </v-time-picker>
                       </v-col>
                     </v-row>
 
-                    <v-text-field
-                      label="Vet"
-                      outlined
-                      color="blue"
-                      hint="Please enter the vet's contact information (Phone number)"
-                      v-model="addAppointment.vet"
-                    ></v-text-field>
+                    <ValidationProvider v-slot="{ errors }" name="todo" rules="digits:10">
+                      <v-text-field
+                        label="Vet"
+                        outlined
+                        color="blue"
+                        hint="Please enter the vet's contact information (Phone number)"
+                        v-model="addAppointment.vet"
+                        :error-messages="errors"
+                      ></v-text-field>
+                    </ValidationProvider>
 
-                    <v-btn @click="createAppointment" class="ma-2" color="green" dark>
+                    <v-btn :disabled="invalid" @click="createAppointment" class="ma-2" color="green" dark>
                       Add
                       <v-icon dark> mdi-checkbox-marked-circle </v-icon>
                     </v-btn>
@@ -66,32 +79,37 @@
                       <v-icon dark> mdi-cancel </v-icon>
                     </v-btn>
                   </v-form>
-                </v-layout>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
-        </h1>
-        <br />
-        <v-divider style="background-color: black"></v-divider>
-      </v-form>
+                </ValidationObserver>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </h1>
+      <br />
+      <v-divider style="background-color: black"></v-divider>
       <!-- TEST BACKEND -->
 
       <v-container v-if="appointments.length > 0">
         <v-slide-x-reverse-transition class="py-0" group>
           <v-card v-for="appointment in appointments" :key="appointment.id" class="mb-2" color="#FFD180">
             <v-layout class="black--text">
-              <v-icon color="black" class="ml-3 mb-1"> mdi-pencil </v-icon>
+              <v-icon color="black" class="ml-5 mb-1"> mdi-pencil </v-icon>
               <v-col>
                 <v-row>
-                  <h2 class="MyFont1 mt-4 ml-5 brown--text">
+                  <h2 class="MyFont2 mt-4 ml-7 brown--text text-left" style="max-width: 800px;">
                     {{ appointment.todo }}
                   </h2>
                 </v-row>
-                <v-row>
-                  <h3 class="MyFont5 ml-5 mb-2">Date : {{ appointment.date }}, at {{ appointment.time }}</h3>
+                <v-row v-if="appointment.date" justify="start">
+                  <v-col cols="3">
+                    <h3 class="MyFont5">Date : {{ appointment.date }}</h3>
+                  </v-col>
+                  <v-col v-if="appointment.time" cols="2">
+                    <h3 class="MyFont5">Time: {{ appointment.time }}</h3>
+                  </v-col>
                 </v-row>
                 <v-row v-if="appointment.vet">
-                  <h3 class="MyFont5 ml-5 mb-2">Tel : {{ appointment.vet }}</h3>
+                  <h3 class="MyFont5 ml-7 mb-2">Tel : {{ appointment.vet }}</h3>
                 </v-row>
               </v-col>
               <v-btn class="mt-3 ml-3 mr-8" @click="chooseAppointmentToEdit(appointment)">edit</v-btn>
@@ -106,19 +124,19 @@
           <v-card light width="700">
             <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>Please edit your pet's appointment information</v-toolbar>
             <v-card-text>
-              <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="appointmentToEdit.todo"> </v-text-field>
+              <v-text-field label="Please enter the reason of your pet's appointment to the vet" v-model="editAppointment.todo"> </v-text-field>
               <v-row>
                 <v-col>
-                  <v-date-picker :min="today" v-model="addAppointment.date"></v-date-picker>
+                  <v-date-picker :min="today" v-model="editAppointment.date"></v-date-picker>
                 </v-col>
                 <v-col>
-                  <v-time-picker v-model="addAppointment.time" format="ampm" class="mb-7"> </v-time-picker>
+                  <v-time-picker v-model="editAppointment.time" format="ampm" class="mb-7"> </v-time-picker>
                 </v-col>
               </v-row>
-              <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="appointmentToEdit.vet"> </v-text-field>
+              <v-text-field label="Please enter the vet's contact information (Phone number)" v-model="editAppointment.vet"> </v-text-field>
             </v-card-text>
             <v-card-actions class="justify-end">
-              <v-btn @click="updateAppointment(appointment.id, appointment)">Confirm Edit</v-btn>
+              <v-btn @click="updateAppointment()">Confirm Edit</v-btn>
               <v-btn @click="overlay = false">Close</v-btn>
             </v-card-actions>
           </v-card>
@@ -130,17 +148,27 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { required, digits } from 'vee-validate/dist/rules';
+import {
+  extend, ValidationObserver, ValidationProvider, setInteractionMode,
+} from 'vee-validate';
 import { db } from '../plugins/firebase';
+
+// there is a bug if you set mode=eager,
+// bug is the form will not let you submit unless you unfocus or change focus state.
+setInteractionMode('aggressive');
+extend('required', {
+  ...required,
+  message: '{_field_} cannot be empty',
+});
+extend('digits', {
+  ...digits,
+  message: 'Please enter 10 digits',
+});
 
 export default {
   data: () => ({
     addAppointment: {
-      date: '',
-      time: '',
-      vet: '',
-      todo: '',
-    },
-    appointmentToEdit: {
       date: '',
       time: '',
       vet: '',
@@ -168,6 +196,10 @@ export default {
     editAppointment: null,
     overlay: false,
   }),
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   created() {
     this.viewAppointment();
   },
@@ -190,6 +222,7 @@ export default {
           console.log('Document written with ID: ', docRef.id);
           this.viewAppointment();
           this.closePopUp();
+          this.clearInput();
         })
         .catch((error) => {
           console.error('Error adding document: ', error);
@@ -211,15 +244,15 @@ export default {
           this.$store.dispatch('setAppointmentsAction', readApp);
         });
     },
-    updateAppointment(id, appointment) {
+    updateAppointment() {
       db.collection('users')
         .doc(this.getUser.uid)
         .collection('appointment')
-        .doc(id)
-        .set(appointment)
+        .doc(this.editAppointment.id)
+        .set(this.editAppointment)
         .then(() => {
           console.log('Document successfully written!');
-          this.closePop2();
+          this.overlay = !this.overlay;
         })
         .catch((error) => {
           console.error('Error writing document: ', error);
@@ -242,9 +275,6 @@ export default {
     },
     closePopUp() {
       this.dialog = false;
-    },
-    closePop2() {
-      this.dialog2 = false;
     },
     clearInput() {
       this.addAppointment.date = '';
