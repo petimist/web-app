@@ -34,6 +34,7 @@
 </template>
 
 <script>
+// not used
 export default ({
   data: () => ({
     links: [
