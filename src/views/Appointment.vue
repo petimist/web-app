@@ -71,7 +71,7 @@
                       ></v-text-field>
                     </ValidationProvider>
 
-                    <v-btn :disabled="invalid" @click="createAppointment" class="ma-2" color="green" dark>
+                    <v-btn :disabled="invalid" @click="createAppointment" class="ma-2" color="green">
                       Add
                       <v-icon dark> mdi-checkbox-marked-circle </v-icon>
                     </v-btn>
@@ -122,7 +122,7 @@
           </v-card>
         </v-slide-x-reverse-transition>
       </v-container>
-      <v-container v-if="editAppointment">
+      <v-container v-if="editAppointment" >
         <v-overlay :value="overlay">
           <v-card light width="700">
             <v-toolbar class="mb-6 black--text" color="#FFD180" light dense>

@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   state: {
     user: null,
     pets: [],
+    species: [],
     appointments: [],
   },
   mutations: {
@@ -16,10 +17,14 @@ const store = new Vuex.Store({
       state.user = user;
     },
     setPets(state, pets) {
-      state.pets = pets;
+      state.pets = pets.sort((x, y) => x.name + y.name);
+    },
+    setSpecies(state, species) {
+      state.species = species;
     },
     setAppointments(state, appointments) {
-      state.appointments = appointments;
+      // TODO: date+time sort
+      state.appointments = appointments.sort((x, y) => (x.date + x.time) - (y.date + y.time));
     },
   },
   getters: {
@@ -28,6 +33,9 @@ const store = new Vuex.Store({
     },
     getPets(state) {
       return state.pets;
+    },
+    getSpecies(state) {
+      return state.species;
     },
     getAppointments(state) {
       return state.appointments;
@@ -42,6 +50,9 @@ const store = new Vuex.Store({
     },
     setUserAction(context, payload) {
       context.commit('setUser', payload);
+    },
+    setSpeciesAction(context, payload) {
+      context.commit('setSpecies', payload);
     },
     signInAction(context, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
