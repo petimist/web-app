@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div>
+      welcome
+      <!-- <button @click="getTip">get tip</button> -->
+    </div>
       <v-navigation-drawer
           app
           clipped
@@ -32,6 +36,7 @@
 
 <script>
 import { signOut } from '../utils/facebook';
+// import { db } from '../plugins/firebase';
 
 export default {
   data: () => ({
@@ -59,7 +64,24 @@ export default {
 
       this.$router.push('/');
     },
+    // getTip() {
+    //   const tips = [];
+    //   db.collection('tips').get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //     // doc.data() is never undefined for query doc snapshots
+    //       // console.log(doc.id, ' => ', doc.data());
+    //       tips.push(doc.data().name);
+    //     });
+    //     return tips[Math.floor(Math.random() * tips.length)];
+    //   });
+    // },
   },
+  computed: {
+    // tip() {
+    //   return this.getTip();
+    // },
+  },
+
 };
 </script>
 
