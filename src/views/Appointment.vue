@@ -212,9 +212,16 @@ export default {
       db.collection('users')
         .doc(this.getUser.uid)
         .collection('appointment')
-        .add(this.addAppointment)
+        .add({
+          date: this.addAppointment.date,
+          time: this.addAppointment.time,
+          vet: this.addAppointment.vet,
+          todo: this.addAppointment.todo,
+          timestamp: `${this.addAppointment.date} ${this.addAppointment.time}`,
+        })
         .then((docRef) => {
           console.log('Document written with ID: ', docRef.id);
+          this.clearInput();
           this.viewAppointment();
           this.closePopUp();
         })
@@ -235,7 +242,12 @@ export default {
             tmpDocData.editing = false;
             readApp.push(tmpDocData);
           });
-          this.$store.dispatch('setAppointmentsAction', readApp);
+          const sortedAppointments = readApp.sort((a, b) => {
+            const aDate = new Date(`${a.date} ${a.time}`);
+            const bDate = new Date(`${b.date} ${b.time}`);
+            return -(bDate - aDate);
+          });
+          this.$store.dispatch('setAppointmentsAction', sortedAppointments);
         });
     },
     updateAppointment(id, appointment) {
