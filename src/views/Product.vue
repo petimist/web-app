@@ -88,7 +88,6 @@
 import { mapGetters } from 'vuex';
 import { db } from '../plugins/firebase';
 
-export default {
   data: () => ({
     currentExpense: 0,
     newProduct: {
