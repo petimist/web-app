@@ -5,7 +5,7 @@
     <div class="modal hidden">
              <h1>Tip</h1>
         <button class="close-modal">&times;</button>
-        <div id="tip">{{ tip.name }}</div>
+        <div id="tip"> <h3>{{ tip.name }}</h3></div>
     </div>
     <div class="overlay hidden"></div>
       <!-- <button id="show-modal" @click="showModal = true">Tip Today</button> -->
@@ -75,11 +75,11 @@ export default {
         icon: 'book-open-outline',
         to: '/appointment',
       },
-      // {
-      //   title: 'Product',
-      //   icon: 'food-variant',
-      //   to: '/product',
-      // },
+      {
+        title: 'Product',
+        icon: 'food-variant',
+        to: '/product',
+      },
       {
         title: 'My pet',
         icon: 'dog',
