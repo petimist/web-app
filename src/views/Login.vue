@@ -119,6 +119,7 @@
 </template>
 
 <script>
+
 import { mapActions, mapGetters } from 'vuex';
 import { required, email, max } from 'vee-validate/dist/rules';
 import {

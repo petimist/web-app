@@ -1,8 +1,16 @@
 <template>
   <div id="app">
     <div>
-      welcome
-      <!-- <button @click="getTip">get tip</button> -->
+      <div @click="enableTipDialog">
+        Click to view some cool tips for your pets.
+      </div>
+      <div>
+        <v-card v-if="tipDialog == true">
+          <div id="tip">{{ tip.name }}</div>
+          <div @click="disableTipDialog">close</div>
+        </v-card>
+      </div>
+
     </div>
       <v-navigation-drawer
           app
@@ -35,11 +43,15 @@
 </template>
 
 <script>
+// import store from '@/store';
+
+import { mapGetters } from 'vuex';
 import { signOut } from '../utils/facebook';
-// import { db } from '../plugins/firebase';
+import { db } from '../plugins/firebase';
 
 export default {
   data: () => ({
+    tipDialog: false,
     links: [
       {
         title: 'Appointment',
@@ -58,28 +70,39 @@ export default {
       },
     ],
   }),
+
+  created() {
+    const tips = [];
+    db.collection('tips').get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data());
+        tips.push(doc.data());
+      });
+      const tip = tips[Math.floor(Math.random() * tips.length)];
+      console.log(tip);
+      this.$store.dispatch('setTipAction', tip);
+    });
+  },
+
   methods: {
+    enableTipDialog() {
+      this.tipDialog = true;
+    },
+    disableTipDialog() {
+      this.tipDialog = false;
+    },
     goToLogout() {
       signOut();
 
       this.$router.push('/');
     },
-    // getTip() {
-    //   const tips = [];
-    //   db.collection('tips').get().then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //     // doc.data() is never undefined for query doc snapshots
-    //       // console.log(doc.id, ' => ', doc.data());
-    //       tips.push(doc.data().name);
-    //     });
-    //     return tips[Math.floor(Math.random() * tips.length)];
-    //   });
-    // },
   },
   computed: {
-    // tip() {
-    //   return this.getTip();
-    // },
+    ...mapGetters(['getTip']),
+    tip() {
+      return this.getTip;
+    },
   },
 
 };
@@ -91,6 +114,10 @@ export default {
 .MyFont2{
   font-size: 1cm;
   font-family: 'Architects Daughter', cursive
+}
+
+#tip{
+  font-size: 12px;
 }
 
 </style>
