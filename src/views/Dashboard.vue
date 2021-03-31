@@ -47,14 +47,14 @@
             <v-list-item-title> {{ link.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
+      </v-list>
+    </v-navigation-drawer>
 
-        <!-- Provides the application the proper gutter -->
-        <v-container fluid>
-          <!-- If using vue-router -->
-          <router-view></router-view>
-        </v-container>
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid>
+      <!-- If using vue-router -->
+      <router-view></router-view>
+    </v-container>
   </div>
 </template>
 
@@ -75,11 +75,11 @@ export default {
         icon: 'book-open-outline',
         to: '/appointment',
       },
-      {
-        title: 'Product',
-        icon: 'food-variant',
-        to: '/product',
-      },
+      // {
+      //   title: 'Product',
+      //   icon: 'food-variant',
+      //   to: '/product',
+      // },
       {
         title: 'My pet',
         icon: 'dog',
@@ -188,9 +188,9 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
-.MyFont2{
+.MyFont2 {
   font-size: 1cm;
-  font-family: 'Architects Daughter', cursive
+  font-family: 'Architects Daughter', cursive;
 }
 
 #tip{

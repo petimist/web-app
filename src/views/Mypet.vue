@@ -1,18 +1,8 @@
 <template>
   <div id="app">
-    <v-navigation-drawer
-      app
-      clipped
-      color="#BDBDBD"
-      width="200"
-    >
+    <v-navigation-drawer app clipped color="#BDBDBD" width="200">
       <v-list class="black--text">
-        <v-list-item
-          exact
-          v-for="link of links"
-          :key="link.title"
-          :to="link.to"
-        >
+        <v-list-item exact v-for="link of links" :key="link.title" :to="link.to">
           <v-list-item-action>
             <v-icon>mdi-{{ link.icon }}</v-icon>
           </v-list-item-action>
@@ -28,83 +18,67 @@
       <v-form>
         <h1 align="left">
           Pet Info
-          <v-dialog
-            v-model="dialog"
-            persistent
-            max-width="600px"
-          >
+          <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                fab
-                color="orange"
-                dark
-                v-bind="attrs"
-                v-on="on"
-              >
+              <v-btn fab color="orange" dark v-bind="attrs" v-on="on">
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
             </template>
 
             <v-card>
-              <v-toolbar
-                color="#FFD180"
-                light
-                flat
-                dense
-                class="mb-6"
-              >
+              <v-toolbar color="#FFD180" light flat dense class="mb-6">
                 <v-icon class="mr-2">mdi-notebook-edit</v-icon>
                 <v-toolbar-title>Please fill out the information below in English</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
+                <ValidationObserver ref="observer" v-slot="{ invalid }">
+                  <v-form>
+                    <ValidationProvider v-slot="{ errors }" name="Name" rules="required">
+                      <v-text-field
+                        label="Name"
+                        outlined
+                        color="red"
+                        type="name"
+                        hint="Please enter your pet's name"
+                        v-model="petToAdd.name"
+                        :error-messages="errors"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" name="Birthday" rules="required">
+                      <v-text-field
+                        label="Birthday"
+                        type="date"
+                        outlined
+                        color="red"
+                        hint="Please enter your pet's birthday"
+                        v-model="petToAdd.birthday"
+                        :error-messages="errors"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" name="Species" rules="required">
+                      <v-select
+                        v-model="petToAdd.species"
+                        :items="species"
+                        :error-messages="errors"
+                        label="Select"
+                        data-vv-name="select"
+                        required
+                      ></v-select>
+                    </ValidationProvider>
 
-                <v-form>
-                  <v-text-field
-                    label="Name"
-                    outlined
-                    color="red"
-                    type="name"
-                    hint="Please enter your pet's name"
-                    v-model="petToAdd.name"
-                  ></v-text-field>
+                    <v-btn :disabled="invalid" @click="createPet" class="ma-2" color="green">
+                      Add
+                      <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+                    </v-btn>
 
-                  <v-text-field
-                    label="Birthday"
-                    type="date"
-                    outlined
-                    color="red"
-                    hint="Please enter your pet's birthday"
-                    v-model="petToAdd.birthday"
-                  ></v-text-field>
-
-                  <v-text-field
-                    label="Species"
-                    outlined
-                    color="red"
-                    hint="Please enter your pet's specie"
-                    v-model="petToAdd.species"
-                  ></v-text-field>
-
-                  <v-btn
-                    @click="createPet"
-                    class="ma-2"
-                    color="green"
-                    dark
-                  >
-                    Add
-                    <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-                  </v-btn>
-
-                  <v-btn
-                    class="ma-2"
-                    color="red"
-                    dark
-                    @click="closePop"
-                  >
-                    Close
-                    <v-icon dark> mdi-cancel </v-icon>
-                  </v-btn>
-                </v-form>
+                    <v-btn class="ma-2" color="red" dark @click="closePop">
+                      Close
+                      <v-icon dark> mdi-cancel </v-icon>
+                    </v-btn>
+                  </v-form>
+                </ValidationObserver>
               </v-card-text>
             </v-card>
           </v-dialog>
@@ -113,68 +87,111 @@
         <v-divider style="background-color: black"></v-divider>
       </v-form>
       <!-- TEST BACKEND -->
-
-      <v-container v-if="pets.length > 0">
-        <v-slide-x-reverse-transition
-          class="py-0"
-          group
-        >
-          <v-card
-            v-for="pet in pets"
-            :key="pet.id"
-            class="mb-2"
-            color="#FFD180"
-            height="60"
-          >
-            <v-layout class="black--text">
-              <v-icon
-                color="black"
-                class="ml-3 mb-1"
-              > mdi-dog-side </v-icon>
-              <h3 class="MyFont5 mt-4 ml-5">
-                Name: {{pet.name}}
-              </h3>
-              <v-spacer></v-spacer>
-              <v-col cols="auto">
-                <v-btn @click="choosePetToEdit(pet)">edit</v-btn>
+      <v-container class="pa-4 text-center">
+        <v-row class="fill-height" align="center" justify="center">
+          <v-slide-x-reverse-transition class="py-0" group>
+            <template v-for="(pet, i) in pets">
+              <v-col :key="i">
+                <v-hover v-slot="{ hover }">
+                  <v-card
+                    @click="choosePetToShow(pet)"
+                    :elevation="hover ? 12 : 2"
+                    class="mb-2"
+                    color="#FFD180"
+                    :class="{ 'on-hover': hover }"
+                    width="900"
+                  >
+                    <v-layout class="black--text">
+                      <v-icon color="black" class="ml-3 mb-1"> mdi-dog-side </v-icon>
+                      <h3 class="MyFont5 mt-4 ml-5">{{ pet.name }}</h3>
+                      <v-spacer></v-spacer>
+                      <v-col cols="auto">
+                        <v-btn @click="choosePetToEdit(pet)">edit</v-btn>
+                      </v-col>
+                      <v-btn class="mt-3 ml-3 mr-8" @click="deletePet(pet.id)">delete </v-btn>
+                    </v-layout>
+                  </v-card>
+                </v-hover>
               </v-col>
-              <v-btn
-                class="mt-3 ml-3 mr-8"
-                @click="deletePet(pet.id)"
-              >delete </v-btn>
-            </v-layout>
+            </template>
+          </v-slide-x-reverse-transition>
+        </v-row>
+      </v-container>
+      <v-container v-if="showPet">
+        <v-overlay :value="overlayShow">
+          <v-card light width="700">
+            <v-toolbar color="#FFD180" light flat dense class="mb-6">
+              <v-icon class="mr-2">mdi-notebook-edit</v-icon>
+              <v-toolbar-title>Pet information</v-toolbar-title> <v-spacer></v-spacer>
+              <v-btn @click="overlayShow = false">Close</v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <h3 class="MyFont5 mt-4 ml-5">Name: {{ showPet.name }}</h3>
+              <h3 class="MyFont5 mt-4 ml-5">Birthday: {{ showPet.birthday }}</h3>
+              <h3 class="MyFont5 mt-4 ml-5 mb-6 ">Species: {{ showPet.species }}</h3>
+            </v-card-text>
+            <v-card-actions></v-card-actions>
           </v-card>
-        </v-slide-x-reverse-transition>
+        </v-overlay>
       </v-container>
       <v-container v-if="editPet">
         <v-overlay :value="overlay">
-            <v-card light width="700">
-              <v-toolbar
-                class="mb-6 black--text"
-                color="#FFD180"
-                light
-                dense
-              >Please edit your pet's information</v-toolbar>
-              <v-card-text>
-                <v-text-field
-                  label="pet's name"
-                  v-model="editPet.name"
-                ></v-text-field>
-                <v-text-field
-                  type="date"
-                  label="pet's birthday"
-                  v-model="editPet.birthday"
-                ></v-text-field>
-                <v-text-field
-                  label="pet's species"
-                  v-model="editPet.species"
-                ></v-text-field>
-              </v-card-text>
-              <v-card-actions class="justify-end">
-                <v-btn @click="updatePet()">Confirm Edit</v-btn>
-                <v-btn @click="overlay = false">Close</v-btn>
-              </v-card-actions>
-            </v-card>
+          <v-card light width="700">
+            <v-toolbar color="#FFD180" light flat dense class="mb-6">
+              <v-icon class="mr-2">mdi-notebook-edit</v-icon>
+              <v-toolbar-title> Please edit your pet's information</v-toolbar-title></v-toolbar
+            >
+            <v-card-text>
+              <ValidationObserver ref="observer" v-slot="{ invalid }">
+                  <v-form>
+                    <ValidationProvider v-slot="{ errors }" name="Name" rules="required">
+                      <v-text-field
+                        label="Name"
+                        outlined
+                        color="red"
+                        type="name"
+                        hint="Please enter your pet's name"
+                        v-model="editPet.name"
+                        :error-messages="errors"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" name="Birthday" rules="required">
+                      <v-text-field
+                        label="Birthday"
+                        type="date"
+                        outlined
+                        color="red"
+                        hint="Please enter your pet's birthday"
+                        v-model="editPet.birthday"
+                        :error-messages="errors"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <ValidationProvider v-slot="{ errors }" name="Species" rules="required">
+                      <v-text-field
+                        v-model="editPet.species"
+                        outlined
+                        :error-messages="errors"
+                        label="Species"
+                        hint="Please enter your pet's species"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
+
+                    <v-btn :disabled="invalid" @click="updatePet" class="ma-2" color="yellow">
+                      Confirm Edit
+                      <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+                    </v-btn>
+
+                    <v-btn class="ma-2" color="red" dark @click="overlay = !overlay; editPet = null">
+                      Close
+                      <v-icon dark> mdi-cancel </v-icon>
+                    </v-btn>
+                  </v-form>
+                </ValidationObserver>
+            </v-card-text>
+          </v-card>
         </v-overlay>
       </v-container>
     </v-container>
@@ -185,7 +202,19 @@
 import store from '@/store';
 
 import { mapGetters } from 'vuex';
+import { required } from 'vee-validate/dist/rules';
+import {
+  extend, ValidationObserver, ValidationProvider, setInteractionMode,
+} from 'vee-validate';
 import { db } from '../plugins/firebase';
+
+// there is a bug if you set mode=eager,
+// bug is the form will not let you submit unless you unfocus or change focus state.
+setInteractionMode('aggressive');
+extend('required', {
+  ...required,
+  message: '{_field_} cannot be empty',
+});
 
 export default {
   data: () => ({
@@ -205,11 +234,11 @@ export default {
         icon: 'book-open-outline',
         to: '/appointment',
       },
-      {
-        title: 'Product',
-        icon: 'food-variant',
-        to: '/product',
-      },
+      // {
+      //   title: 'Product',
+      //   icon: 'food-variant',
+      //   to: '/product',
+      // },
       {
         title: 'My pet',
         icon: 'dog',
@@ -218,10 +247,18 @@ export default {
     ],
     dialog: false,
     editPet: null,
+    showPet: null,
+    deletingPet: null,
     overlay: false,
+    overlayShow: false,
   }),
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   created() {
     const tmpPets = [];
+    const tmpSpecies = [];
     db.collection('users')
       .doc(store.state.user.uid)
       .collection('pets')
@@ -237,11 +274,26 @@ export default {
         });
         this.$store.dispatch('setPetsAction', tmpPets);
       });
+    db.collection('species')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const tmpDocData = doc.data();
+          tmpSpecies.push(tmpDocData.breed);
+          // doc.data() is never undefined for query doc snapshots
+        });
+        tmpSpecies.sort();
+        tmpSpecies.push('Not Specified/Not Listed');
+        this.$store.dispatch('setSpeciesAction', tmpSpecies);
+      });
   },
   computed: {
-    ...mapGetters(['getUser', 'getPets']),
+    ...mapGetters(['getUser', 'getPets', 'getSpecies']),
     pets() {
       return this.getPets;
+    },
+    species() {
+      return this.getSpecies;
     },
   },
   methods: {
@@ -297,6 +349,7 @@ export default {
     },
 
     deletePet(id) {
+      this.deletingPet = id;
       db.collection('users')
         .doc(this.getUser.uid)
         .collection('pets')
@@ -304,6 +357,7 @@ export default {
         .delete()
         .then(() => {
           console.log('Document successfully deleted!');
+          this.deletingPet = null;
           this.readPets();
         })
         .catch((error) => {
@@ -314,6 +368,12 @@ export default {
       this.editPet = pet;
       console.log(this.editPet);
       this.overlay = !this.overlay;
+    },
+
+    choosePetToShow(pet) {
+      this.showPet = pet;
+      console.log(this.showPet);
+      this.overlayShow = !this.overlayShow && !this.editPet && !this.deletingPet;
     },
 
     closePop() {
@@ -329,10 +389,10 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 .MyFont5 {
   font-size: 0.5cm;
-  font-family: "Architects Daughter", cursive;
+  font-family: 'Architects Daughter', cursive;
 }
 </style>

@@ -2,12 +2,7 @@
   <div id="app">
     <v-navigation-drawer app clipped color="#BDBDBD" width="200">
       <v-list class="black--text">
-        <v-list-item
-          exact
-          v-for="link of links"
-          :key="link.title"
-          :to="link.to"
-        >
+        <v-list-item exact v-for="link of links" :key="link.title" :to="link.to">
           <v-list-item-action>
             <v-icon>mdi-{{ link.icon }}</v-icon>
           </v-list-item-action>
@@ -49,17 +44,12 @@
               <th class="text-center">Price</th>
               <th class="text-center"></th>
               <!-- <th class="text-center">Quantity</th> -->
-
             </tr>
           </thead>
           <tbody>
             <tr v-for="product in products" :key="product.id">
               <td>
-                <v-img
-                  max-height="120"
-                  max-width="120"
-                  :src="product.image"
-                ></v-img>
+                <v-img max-height="120" max-width="120" :src="product.image"></v-img>
               </td>
               <td>{{ product.name }}</td>
               <td>{{ product.price }}</td>
@@ -67,19 +57,16 @@
               <td>
                 <v-btn @click="plus(product.price)"> + </v-btn>
                 <v-btn @click="minus(product.price)"> - </v-btn>
-                </td>
-
+              </td>
             </tr>
           </tbody>
         </template>
       </v-simple-table>
       <div>
         total expense = {{ this.expense }} baht
-        <br>
+        <br />
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -141,7 +128,6 @@ export default {
     },
   },
   methods: {
-
     plus(price) {
       this.currentExpense += price;
     },
@@ -213,10 +199,10 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 .MyFont2 {
   font-size: 1cm;
-  font-family: "Architects Daughter", cursive;
+  font-family: 'Architects Daughter', cursive;
 }
 </style>
