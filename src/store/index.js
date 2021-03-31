@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     user: null,
+    tip: null,
     pets: [],
     species: [],
     appointments: [],
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
     setProducts(state, products) {
       state.products = products;
     },
+    setTip(state, tip) {
+      state.tip = tip;
+    },
   },
   getters: {
     getUser(state) {
@@ -47,8 +51,14 @@ const store = new Vuex.Store({
     getProducts(state) {
       return state.products;
     },
+    getTip(state) {
+      return state.tip;
+    },
   },
   actions: {
+    setTipAction(context, payload) {
+      context.commit('setTip', payload);
+    },
     setAppointmentsAction(context, payload) {
       context.commit('setAppointments', payload);
     },
