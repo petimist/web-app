@@ -8,18 +8,31 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     user: null,
+    tip: null,
     pets: [],
+    species: [],
     appointments: [],
+    products: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
     },
     setPets(state, pets) {
-      state.pets = pets;
+      state.pets = pets.sort((x, y) => x.name + y.name);
+    },
+    setSpecies(state, species) {
+      state.species = species;
     },
     setAppointments(state, appointments) {
-      state.appointments = appointments;
+      // TODO: date+time sort
+      state.appointments = appointments.sort((x, y) => (x.date + x.time) - (y.date + y.time));
+    },
+    setProducts(state, products) {
+      state.products = products;
+    },
+    setTip(state, tip) {
+      state.tip = tip;
     },
   },
   getters: {
@@ -29,19 +42,37 @@ const store = new Vuex.Store({
     getPets(state) {
       return state.pets;
     },
+    getSpecies(state) {
+      return state.species;
+    },
     getAppointments(state) {
       return state.appointments;
     },
+    getProducts(state) {
+      return state.products;
+    },
+    getTip(state) {
+      return state.tip;
+    },
   },
   actions: {
+    setTipAction(context, payload) {
+      context.commit('setTip', payload);
+    },
     setAppointmentsAction(context, payload) {
       context.commit('setAppointments', payload);
     },
     setPetsAction(context, payload) {
       context.commit('setPets', payload);
     },
+    setProductsAction(context, payload) {
+      context.commit('setProducts', payload);
+    },
     setUserAction(context, payload) {
       context.commit('setUser', payload);
+    },
+    setSpeciesAction(context, payload) {
+      context.commit('setSpecies', payload);
     },
     signInAction(context, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
